@@ -7,7 +7,7 @@ const router = require('../router/index');
 const app = new Koa();
 // 注册跨域
 app.use(cors({
-    origin: function() {return 'http://localhost:8080'},
+    origin: function(ctx) {return ctx.header.origin;},
     credentials: true,
     allowMethods: ['GET', 'POST', 'DELETE', 'PUT', "OPTIONS"],
     allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
