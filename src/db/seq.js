@@ -3,7 +3,7 @@ const {MYSQL_HOST, MYSQL_USER, MYSQL_PASS, DATABASE_NAME, DATABASE_TYPE} = requi
 // 方法 3: 分别传递参数 (其它数据库)
 const sequelize = new Sequelize(DATABASE_NAME, MYSQL_USER, MYSQL_PASS, {
     host: MYSQL_HOST,
-    dialect: DATABASE_TYPE,
+    dialect: DATABASE_TYPE
 });
 
 // sequelize.authenticate().then(() => {
