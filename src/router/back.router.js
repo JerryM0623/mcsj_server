@@ -1,13 +1,14 @@
 /**
  * admin 后台管理系统的接口
- * @type {any}
  */
 const Router = require('koa-router');
+const controller = require('../controller/index')
 
-const backRouter = new Router();
+const backRouter = new Router({
+    prefix: '/b'
+});
 
-backRouter.get('/b/login',(ctx) => {
-    ctx.body = 'hello back login!';
-})
+// 登录接口
+backRouter.post('/login', controller.backController.login);
 
 module.exports = backRouter;

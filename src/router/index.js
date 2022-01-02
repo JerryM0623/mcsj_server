@@ -1,6 +1,5 @@
 /**
  * 所有router的总出口
- * @type {any}
  */
 const Router = require('koa-router');
 const router = new Router();
