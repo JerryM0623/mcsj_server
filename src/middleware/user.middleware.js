@@ -6,13 +6,11 @@
  */
 const userLoginValidate = async (ctx, next) => {
     const { account, password } = ctx.request.body;
-    console.log(account,password)
     // 没有输入的话
     if(!account || !password) {
         // 400 代表请求是坏的
-        ctx.status = 400
         ctx.body = {
-            code:400,
+            code:10001,
             msg:'请输入账号或者密码！',
             data:''
         }

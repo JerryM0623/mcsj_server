@@ -15,7 +15,6 @@ class BackService{
                     account
                 }
             })
-
             if(!res) return 1;
             return (password === res.password) ? 3 : 2;
         }catch (err){
