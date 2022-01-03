@@ -2,9 +2,17 @@
  * 后台管理接口的 controller
  */
 const jwt = require('jsonwebtoken');
+
 const service = require('../service/index');
 const { JWT_KEY } = require('../config/config.default')
+const { fillImgLink } = require('../utils/fillImgLink.utils');
+
 class backController {
+    /**
+     * login 控制器 -> 实现登录功能
+     * @param ctx
+     * @returns {Promise<void>}
+     */
     async login(ctx){
         try{
             const {account, password} = ctx.request.body;
@@ -28,9 +36,7 @@ class backController {
                     code:10000,
                     msg:'登录成功',
                     data:{
-                        id:'1',
-                        account,
-                        token:jwt.sign({account,password},JWT_KEY,{ expiresIn: '1h' })
+                        token:jwt.sign({account,password},JWT_KEY)
                     }
                 }
             }
@@ -42,6 +48,30 @@ class backController {
             }
         }
 
+    }
+
+    /**
+     * getUserInfo 控制器 -> 实现用户详细信息的获取
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async getUserInfo(ctx){
+        try{
+            const { account } = ctx.query;
+            const res = await service.backService.getUserInfo(account);
+            const newRes = fillImgLink(res);
+            ctx.body = {
+                code:20000,
+                msg:'获取信息成功',
+                data:JSON.stringify(newRes)
+            }
+        }catch (err) {
+            ctx.body = {
+                code:20003,
+                msg:'Error！！！',
+                data:JSON.stringify(err)
+            }
+        }
     }
 }
 module.exports = new backController();
