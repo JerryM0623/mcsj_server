@@ -1,6 +1,9 @@
 const Koa = require('koa');
 const koaBody = require('koa-body');
-const cors = require('koa2-cors')
+const cors = require('koa2-cors');
+const KoaStatic = require('koa-static');
+
+const path = require('path');
 
 const router = require('../router/index');
 
@@ -12,6 +15,8 @@ app.use(cors({
     allowMethods: ['GET', 'POST', 'DELETE', 'PUT', "OPTIONS"],
     allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
 }))
+// 注册静态资源文件夹
+app.use(KoaStatic(path.join(__dirname,'../static')));
 // 注册 body 解析中间件
 app.use(koaBody());
 // 注册所有的路由中间件
