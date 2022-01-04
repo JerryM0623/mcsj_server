@@ -66,6 +66,51 @@ class BackService{
             console.log(err)
         }
     }
+
+    /**
+     * 根据传递进来的 id 在数据库中进行数据查询
+     * @param id -> 请求传递进来的id
+     * @returns {Promise<void>}
+     */
+    async getAccountById(id){
+        try{
+            const SQL = `select u.id,u.account,u.password,r.name as role from t_users as u,t_user_role as ur, t_roles as r where u.id = ${id} && u.id = ur.user_id && ur.role_id = r.id;`
+            const res = await sequelize.query(SQL);
+            return res[0];
+        }catch (err){
+            console.log(111,err);
+        }
+    }
+
+    /**
+     * 根据传递进来的 account 在数据库中进行数据查询
+     * @param account -> 请求传递进来的 account
+     * @returns {Promise<void>}
+     */
+    async getAccountByAccount(account){
+        try{
+            const SQL = `select u.id,u.account,u.password,r.name as role from t_users as u,t_user_role as ur, t_roles as r where u.account = '${account}' && u.id = ur.user_id && ur.role_id = r.id;`
+            const res =  await sequelize.query(SQL);
+            return res[0];
+        }catch (err){
+            console.log(222,err);
+        }
+    }
+
+    /**
+     * 根据传递进来的 role 在数据库中进行数据查询
+     * @param role -> 请求传递进来的 role
+     * @returns {Promise<void>}
+     */
+    async getAccountsByRole(role){
+        try{
+            const SQL = `select u.id,u.account,u.password,r.name as role from t_users as u,t_user_role as ur, t_roles as r where r.name = '${role}' && r.id = ur.role_id && ur.user_id = u.id;`
+            const res = await sequelize.query(SQL);
+            return res[0];
+        }catch (err){
+            console.log(333,err);
+        }
+    }
 }
 
 module.exports = new BackService();

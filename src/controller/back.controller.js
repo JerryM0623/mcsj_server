@@ -97,5 +97,81 @@ class backController {
             }
         }
     }
+
+    /**
+     * getAccountInfoById 控制器 -> 实现根据id获取对应用户的数据
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async getAccountInfoById(ctx){
+        try{
+            // 通过 id 进行查询
+            const { id } = ctx.query;
+            console.log('ncjewken',id)
+            // 传递给 service 进行数据查询
+            const res = await service.backService.getAccountById(id);
+            ctx.body = {
+                code:200,
+                msg:"查询成功",
+                data:res
+            }
+        }catch (err){
+            ctx.body = {
+                code:404,
+                msg:"查询失败",
+                data:""
+            }
+        }
+    }
+
+    /**
+     * getAccountInfoByAccount 控制器 -> 实现根据account获取对应用户的数据
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async getAccountInfoByAccount(ctx){
+        try{
+            // 通过 id 进行查询
+            const { account } = ctx.query;
+            // 传递给 service 进行数据查询
+            const res = await service.backService.getAccountByAccount(account);
+            ctx.body = {
+                code:200,
+                msg:"查询成功",
+                data:res
+            }
+        }catch (err){
+            ctx.body = {
+                code:404,
+                msg:"查询失败",
+                data:""
+            }
+        }
+    }
+
+    /**
+     * getAccountsInfoByRole 控制器 -> 实现根据 role 获取对应的所有用户的数据
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async getAccountsInfoByRole(ctx){
+        try{
+            // 通过 id 进行查询
+            const { role } = ctx.query;
+            // 传递给 service 进行数据查询
+            const res = await service.backService.getAccountsByRole(role);
+            ctx.body = {
+                code:200,
+                msg:"查询成功",
+                data:res
+            }
+        }catch (err){
+            ctx.body = {
+                code:404,
+                msg:"查询失败",
+                data:""
+            }
+        }
+    }
 }
 module.exports = new backController();

@@ -26,6 +26,6 @@ backRouter.get('/account/id', requestTokenValidate, checkRequestToken, controlle
 backRouter.get('/account/account', requestTokenValidate, checkRequestToken, controller.backController.getAccountInfoByAccount);
 
 // 根据 role 查询对应的账户信息（查到的数据可以是多数的）
-backRouter.get('/accounts/role', requestTokenValidate, checkRequestToken, controller.backController.getAccountsByRole);
+backRouter.get('/accounts/role', requestTokenValidate, checkRequestToken, controller.backController.getAccountsInfoByRole);
 
 module.exports = backRouter;
