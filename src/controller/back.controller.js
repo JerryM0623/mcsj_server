@@ -59,6 +59,7 @@ class backController {
         try{
             const { account } = ctx.query;
             const res = await service.backService.getUserInfo(account);
+            res.account = account;
             const newRes = fillImgLink(res);
             ctx.body = {
                 code:20000,
@@ -70,6 +71,29 @@ class backController {
                 code:20003,
                 msg:'Error！！！',
                 data:JSON.stringify(err)
+            }
+        }
+    }
+
+    /**
+     * getAllAccountInfo 控制器 -> 实现获取所有用户的数据
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async getAllAccountInfo(ctx){
+        try{
+            // 直接让 service 层进行数据库的处理
+            const res = await service.backService.getAllAccounts();
+            ctx.body = {
+                code:30000,
+                msg:'查询成功',
+                data:res
+            }
+        }catch (err){
+            ctx.body = {
+                code:30001,
+                msg:'查询失败',
+                data:err
             }
         }
     }

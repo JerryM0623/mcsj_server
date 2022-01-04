@@ -1,5 +1,7 @@
 const userModel = require('../model/user.model')
 const userInfoModel = require('../model/user.info.model')
+const sequelize = require('../db/seq')
+const { QueryTypes } = require('../db/seq')
 class BackService{
     /**
      * 确认当前正在登录的账号是否在数据库中存在
@@ -25,7 +27,7 @@ class BackService{
     }
 
     /**
-     * 根据传递的 account 获取当前登录用户的所有信息
+     * 根据传递的 account 获取当前登录用户的全部信息
      * @param account
      * @returns {Promise<void>}
      */
@@ -46,9 +48,22 @@ class BackService{
                 }
             })
             // 返回
-            return res.dataValues;
+            return res.dataValues === null ? {} : res.dataValues ;
         }catch (err){
             console.log('数据库操作出现错误',err);
+        }
+    }
+
+    /**
+     * 获取获取数据库中存在的所有用户的全部信息
+     * @returns {Promise<void>}
+     */
+    async getAllAccounts(){
+        try {
+            const SQL = 'select u.id , u.account , u.password , r.name as role from t_users as u,t_user_role as ur,t_roles as r where u.id = ur.user_id && ur.role_id = r.id;'
+            return await sequelize.query(SQL,{ type:QueryTypes.SELECT });
+        }catch (err) {
+            console.log(err)
         }
     }
 }
