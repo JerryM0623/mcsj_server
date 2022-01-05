@@ -14,5 +14,7 @@ const backRouter = new Router({
 backRouter.post('/login', loginMiddleware.checkAccount, loginMiddleware.checkPassword, loginController.login);
 // 获取全部数据
 backRouter.get('/accounts', accountController.getAllAccount);
+// 添加账号
+backRouter.post('/account/add', accountController.addAccount);
 
 module.exports = backRouter;

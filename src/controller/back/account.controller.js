@@ -16,6 +16,29 @@ class accountController{
             data:res
         }
     }
+
+    /**
+     * 添加一个账号的接口
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async addAccount(ctx){
+        // 接收数据
+        const { account, password, role } = ctx.request.body;
+        // 插入数据库
+        const res = await accountService.addAccount(account, password, role);
+        if (res){
+            ctx.body = {
+                code:200,
+                msg:'添加成功'
+            }
+        }else {
+            ctx.body = {
+                code:500,
+                msg:'添加失败'
+            }
+        }
+    }
 }
 
 module.exports = new accountController();
