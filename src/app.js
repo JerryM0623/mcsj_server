@@ -27,6 +27,7 @@ const backRouter = require('./router/back.router');
 app.use(backRouter.routes()).use(backRouter.allowedMethods()); // admin 管理端的路由
 
 // 监听端口
-app.listen('4000',() => {
-    console.log(`服务已启动，请访问http://localhost:4000`);
+const { PORT } = require('./config/app.config')
+app.listen(PORT,() => {
+    console.log(`服务已启动，请访问http://localhost:${PORT}`);
 })

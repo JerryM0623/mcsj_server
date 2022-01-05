@@ -1,6 +1,9 @@
 /* admin管理后台 login 的 controller */
 
-const loginService = require('../../service/back/login.service')
+const jwt = require('jsonwebtoken');
+
+const { JWT_KEY } = require('../../config/app.config')
+const loginService = require('../../service/back/login.service');
 
 class LoginController{
     /**
@@ -34,10 +37,17 @@ class LoginController{
             }
             return ;
         }
+        // 响应前端
         ctx.body = {
             code:200,
             msg:'登录成功',
-            data:res
+            data:{
+                ...res,
+                // 颁发 token
+                token:jwt.sign(res,JWT_KEY,{
+                    expiresIn: '1d' // 一天的 token 有效期
+                })
+            }
         }
     }
 
