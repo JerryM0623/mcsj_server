@@ -15,10 +15,10 @@ const checkAccount = async (ctx, next) => {
         }
         return ;
     }
-    if (account.length < 6 || account.length > 10){
+    if (account.length < 6 || account.length > 16){
         ctx.body = {
             code:400,
-            msg:'账号的长度在6-10之间哦',
+            msg:'账号的长度在6-16之间哦',
             data:""
         }
         return ;
@@ -41,10 +41,10 @@ const checkPassword = async (ctx, next) => {
         }
         return ;
     }
-    if (password.length < 6 || password.length > 10){
+    if (password.length < 6 || password.length > 16){
         ctx.body = {
             code:400,
-            msg:'密码的长度在6-10之间哦',
+            msg:'密码的长度在6-16之间哦',
             data:""
         }
         return ;
