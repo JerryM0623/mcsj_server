@@ -5,7 +5,9 @@ const app = new Koa();
 const cors = require('koa2-cors');
 app.use(cors({
     // 允许全部 host 访问
-    origin: "*",
+    origin: (ctx) => {
+        return ctx.header.origin;
+    },
     // 允许携带 cookie
     credentials: true,
     // 允许的方法
