@@ -19,5 +19,7 @@ backRouter.get('/accounts', tokenMiddleWare.checkToken, accountController.getAll
 backRouter.post('/account/add', tokenMiddleWare.checkToken,loginMiddleware.checkAccount, loginMiddleware.checkPassword, accountController.addAccount);
 // 更新账号信息
 backRouter.post('/account/update', tokenMiddleWare.checkToken, loginMiddleware.checkAccount, loginMiddleware.checkPassword, accountController.updateAccount);
+// 删除一个账号
+backRouter.post('/account/delete', tokenMiddleWare.checkToken, accountController.deleteAccount);
 
 module.exports = backRouter;

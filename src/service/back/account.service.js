@@ -71,6 +71,28 @@ class AccountService{
             return false;
         }
     }
+
+    /**
+     * 删除一个账户
+     * @param id
+     * @returns {Promise<void>}
+     */
+    async deleteAccount(id){
+        try {
+            // 先删 admin_user_role
+            const deleteSql = `delete from admin_user_role where user_id = ${ id };`;
+            await adminPool.execute(deleteSql);
+
+            // 再删 admin_users
+            const deleteSql2 = `delete from admin_users where id = ${ id };`;
+            await adminPool.execute(deleteSql2);
+
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
 }
 
 module.exports = new AccountService();

@@ -64,6 +64,39 @@ class accountController{
             }
         }
     }
+
+    /**
+     * 删除一个账户
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async deleteAccount(ctx){
+        // 获取数据
+        const { id } = ctx.request.body;
+        if (!id){
+            ctx.body = {
+                code:500,
+                msg:"id不存在",
+                data:""
+            }
+            return;
+        }
+        // 交给 service
+        const res = await accountService.deleteAccount(id);
+        if (res){
+            ctx.body = {
+                code:200,
+                msg:"删除成功",
+                data:""
+            }
+        }else{
+            ctx.body = {
+                code:500,
+                msg:"删除失败",
+                data:""
+            }
+        }
+    }
 }
 
 module.exports = new accountController();
