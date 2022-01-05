@@ -39,6 +39,31 @@ class accountController{
             }
         }
     }
+
+    /**
+     * 更新一个账号的信息
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async updateAccount(ctx){
+        // 获取数据
+        const { id, account, password, role } = ctx.request.body;
+        // 传递给 service 进行数据更新
+        const res = await accountService.updateAccount(id, account, password, role);
+        if(res){
+            ctx.body = {
+                code:200,
+                msg:"更新完成",
+                data:""
+            }
+        }else{
+            ctx.body = {
+                code:500,
+                msg:"更新失败",
+                data:""
+            }
+        }
+    }
 }
 
 module.exports = new accountController();

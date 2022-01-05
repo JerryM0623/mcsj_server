@@ -43,6 +43,34 @@ class AccountService{
             return false;
         }
     }
+
+    /**
+     * 更新一个账户信息
+     * @param id
+     * @param account
+     * @param password
+     * @param role
+     * @returns {Promise<void>}
+     */
+    async updateAccount(id, account, password, role){
+        try{
+            // 获取 role_id
+            const selectIdSql = `select id from admin_roles where name = '${role}';`;
+            const res1 = await adminPool.execute(selectIdSql);
+            const role_id = res1[0][0].id;
+            // 更改 user
+            const updateSql = `update admin_users set account = '${account}',password = '${password}' where id = ${id};`
+            await adminPool.execute(updateSql);
+            // 更改 user_role
+            const updateSql2 = `update admin_user_role set role_id = ${role_id} where user_id = ${id};`
+            await adminPool.execute(updateSql2);
+
+            return true;
+        }catch (e) {
+            console.log(e)
+            return false;
+        }
+    }
 }
 
 module.exports = new AccountService();

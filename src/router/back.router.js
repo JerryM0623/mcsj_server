@@ -17,5 +17,7 @@ backRouter.post('/login', loginMiddleware.checkAccount, loginMiddleware.checkPas
 backRouter.get('/accounts', tokenMiddleWare.checkToken, accountController.getAllAccount);
 // 添加账号
 backRouter.post('/account/add', tokenMiddleWare.checkToken,loginMiddleware.checkAccount, loginMiddleware.checkPassword, accountController.addAccount);
+// 更新账号信息
+backRouter.post('/account/update', tokenMiddleWare.checkToken, loginMiddleware.checkAccount, loginMiddleware.checkPassword, accountController.updateAccount);
 
 module.exports = backRouter;
