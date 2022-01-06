@@ -1,25 +1,16 @@
 /* admin 网页端的所有接口 */
 const Router = require('koa-router');
 
-const loginMiddleware = require('../middleware/back/login.middleware')
-const tokenMiddleWare = require('../middleware/back/token.middleware')
-
-const loginController = require('../controller/back/login.controller')
-const accountController = require('../controller/back/account.controller')
+const adminLoginRouter = require('./login/admin.login.router');
+const adminAccountRouter = require('./account/admin.account.router');
 
 const backRouter = new Router({
     prefix:'/admin'
 })
 
-// 登录接口
-backRouter.post('/login', loginMiddleware.checkAccount, loginMiddleware.checkPassword, loginController.login);
-// 获取全部数据
-backRouter.get('/accounts', tokenMiddleWare.checkToken, accountController.getAllAccount);
-// 添加账号
-backRouter.post('/account/add', tokenMiddleWare.checkToken,loginMiddleware.checkAccount, loginMiddleware.checkPassword, accountController.addAccount);
-// 更新账号信息
-backRouter.post('/account/update', tokenMiddleWare.checkToken, loginMiddleware.checkAccount, loginMiddleware.checkPassword, accountController.updateAccount);
-// 删除一个账号
-backRouter.post('/account/delete', tokenMiddleWare.checkToken, accountController.deleteAccount);
+// 配置登录接口
+backRouter.use(adminLoginRouter.routes()).use(adminLoginRouter.allowedMethods());
+// 配置账户管理接口
+backRouter.use(adminAccountRouter.routes()).use(adminAccountRouter.allowedMethods());
 
 module.exports = backRouter;
