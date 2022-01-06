@@ -1,8 +1,8 @@
 /* admin 网页端的所有接口 */
 const Router = require('koa-router');
 
-const adminLoginRouter = require('./login/admin.login.router');
-const adminAccountRouter = require('./account/admin.account.router');
+const adminLoginRouter = require('./back/login/admin.login.router');
+const adminAccountRouter = require('./back/account/admin.account.router');
 
 const backRouter = new Router({
     prefix:'/admin'
