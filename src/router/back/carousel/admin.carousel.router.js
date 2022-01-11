@@ -8,9 +8,11 @@ const adminCarouselRouter = new Router({
 
 // 查询已存在于数据库中的数据
 adminCarouselRouter.get('/all', carouselController.getAllCarousels);
-// 添加轮播图数据
-// 上架下架轮播图数据
+// 上传轮播图文件及其附带信息的接口
+adminCarouselRouter.post('/add', carouselController.addCarousel);
 // 修改轮播图其余数据
+adminCarouselRouter.post('/update', carouselController.updateCarousel);
 // 删除轮播图数据
+adminCarouselRouter.post('/delete', carouselController.deleteCarousel)
 
 module.exports = adminCarouselRouter;

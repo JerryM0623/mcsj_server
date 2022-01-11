@@ -16,8 +16,10 @@ app.use(cors({
 }));
 
 // 配置 body 解析
-const bodyParser = require('koa-bodyparser');
-app.use(bodyParser());
+const KoaBody = require('koa-body');
+app.use(KoaBody({
+    multipart:true, // 允许传递文件
+}));
 
 // 配置 static 静态资源文件夹
 const KoaStatic = require('koa-static');
