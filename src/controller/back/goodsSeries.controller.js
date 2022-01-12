@@ -113,6 +113,11 @@ class GoodsSeriesController {
         }
     }
 
+    /**
+     * 删除一条系列信息
+     * @param ctx
+     * @returns {Promise<void>}
+     */
     async deleteSeries(ctx){
         const { id } = ctx.request.body;
         const res = await goodsSeriesService.deleteSeries(id);

@@ -77,6 +77,11 @@ class GoodsSeriesService {
        }
     }
 
+    /**
+     * 删除一个系列信息
+     * @param id
+     * @returns {Promise<boolean>}
+     */
     async deleteSeries(id){
         try {
             const sql = `delete from mcsj_goods_series where id = ${ id };`;
