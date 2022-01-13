@@ -4,6 +4,20 @@ const adminPool = require('../../db/adminPool')
 
 class AccountService{
     /**
+     * 与数据库通信获取全部职业数据
+     * @returns {Promise<*[]|*>}
+     */
+    async getAllRole(){
+        try {
+            const sql = `select * from admin_roles;`;
+            const res = await adminPool.execute(sql);
+            return res[0];
+        }catch (e) {
+            console.log(e);
+            return [];
+        }
+    }
+    /**
      * 像数据库请求所有 accounts 的信息
      * @returns {Promise<void>}
      */

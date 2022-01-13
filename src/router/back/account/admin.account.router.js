@@ -10,6 +10,8 @@ const adminAccountRouter = new Router({
 });
 
 // 获取全部账户数据
+adminAccountRouter.get('/role/all', tokenMiddleWare.checkToken, accountController.getAllRole);
+// 获取全部账户数据
 adminAccountRouter.get('/all', tokenMiddleWare.checkToken, accountController.getAllAccount);
 // 添加一个账户信息
 adminAccountRouter.post('/add', tokenMiddleWare.checkToken, loginMiddleware.checkAccount, loginMiddleware.checkPassword, accountController.addAccount);

@@ -3,6 +3,28 @@ const accountService = require('../../service/back/account.service');
 
 class accountController{
     /**
+     * 获取数据库中的全部职业类型
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async getAllRole(ctx){
+        // 向数据库请求数据
+        const res = await accountService.getAllRole();
+        if (res.length > 0 ){
+            ctx.body = {
+                code:200,
+                msg:'查询成功',
+                data:res
+            }
+        }else {
+            ctx.body = {
+                code:200,
+                msg:'查询成功',
+                data:res
+            }
+        }
+    }
+    /**
      * 获取数据库中的全部账号信息
      * @param ctx
      * @returns {Promise<void>}
