@@ -39,7 +39,7 @@ class PermissionController{
         // 获取信息
         const { permission_name } = ctx.request.body;
         // 请求数据
-        if (!permission_name){
+        if (!permission_name || permission_name.length <= 0){
             ctx.body = {
                 code:500,
                 msg:"参数错误,请检查",
@@ -59,6 +59,40 @@ class PermissionController{
         ctx.body = {
             code:200,
             msg:"添加成功",
+            data:""
+        }
+    }
+
+    /**
+     * 根据 id 和 permission_name 更新数据库信息的 controller 层函数
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async editPermission(ctx){
+        // 获取信息
+        const { id, permission_name } = ctx.request.body;
+        // 校验
+        if (!permission_name || permission_name.trim() === '' || !id || id === ''){
+            ctx.body = {
+                code:500,
+                msg:"参数错误,请检查",
+                data:""
+            }
+            return;
+        }
+        // 唤起 service 层
+        const res = await permissionService.editPermission(id, permission_name);
+        if (!res){
+            ctx.body = {
+                code:500,
+                msg:"修改失败,请稍后重试",
+                data:""
+            }
+            return;
+        }
+        ctx.body = {
+            code:200,
+            msg:"修改成功",
             data:""
         }
     }

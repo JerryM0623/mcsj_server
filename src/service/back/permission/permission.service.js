@@ -22,11 +22,31 @@ class PermissionService{
      * @returns {Promise<boolean>}
      */
     async addPermission(permission_name){
-        if (!permission_name){
+        if (!permission_name || permission_name.length <= 0){
             return false;
         }
         try {
             const sql = `insert into admin_permission(name) value ('${permission_name}');`;
+            await adminPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
+    /**
+     * 根据 id 和 permission_name 更新数据库的信息
+     * @param id
+     * @param permission_name
+     * @returns {Promise<boolean>}
+     */
+    async editPermission(id, permission_name){
+        if (!permission_name || permission_name.length <= 0){
+            return false;
+        }
+        try{
+            const sql = `update admin_permission set name = '${permission_name}' where id = ${id};`;
             await adminPool.execute(sql);
             return true;
         }catch (e) {
