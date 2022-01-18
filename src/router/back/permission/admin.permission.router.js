@@ -7,5 +7,7 @@ const permissionController = require('../../../controller/back/permission/permis
 
 // 获取权限信息的接口
 adminPermissionRouter.get('/all', permissionController.getAll);
+// 添加一个新的权限信息
+adminPermissionRouter.post('/add', permissionController.addPermission);
 
 module.exports = adminPermissionRouter
