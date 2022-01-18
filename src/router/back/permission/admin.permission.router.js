@@ -11,5 +11,7 @@ adminPermissionRouter.get('/all', permissionController.getAll);
 adminPermissionRouter.post('/add', permissionController.addPermission);
 // 编辑已有权限信息
 adminPermissionRouter.post('/edit',permissionController.editPermission);
+// 删除一条已有的权限信息
+adminPermissionRouter.post('/delete',permissionController.deletePermission);
 
 module.exports = adminPermissionRouter

@@ -96,6 +96,40 @@ class PermissionController{
             data:""
         }
     }
+
+    /**
+     * 根据 id 进行数据删除的 controller 层函数
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async deletePermission(ctx){
+        // 获取信息
+        const { id } = ctx.request.body;
+        // 校验
+        if (!id || id === ''){
+            ctx.body = {
+                code:500,
+                msg:"参数错误,请检查",
+                data:""
+            }
+            return;
+        }
+        // 唤起 service 层
+        const res = await permissionService.deletePermission(id);
+        if (!res){
+            ctx.body = {
+                code:500,
+                msg:"删除失败,请稍后重试",
+                data:""
+            }
+            return;
+        }
+        ctx.body = {
+            code:200,
+            msg:"删除成功",
+            data:""
+        }
+    }
 }
 
 module.exports = new PermissionController();

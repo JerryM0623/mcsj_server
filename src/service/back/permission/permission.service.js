@@ -42,11 +42,30 @@ class PermissionService{
      * @returns {Promise<boolean>}
      */
     async editPermission(id, permission_name){
-        if (!permission_name || permission_name.length <= 0){
+        if (!permission_name || permission_name.length <= 0 || !id || id === ''){
             return false;
         }
         try{
             const sql = `update admin_permission set name = '${permission_name}' where id = ${id};`;
+            await adminPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
+    /**
+     * 根据 id 进行数据删除的 service 层函数
+     * @param id
+     * @returns {Promise<boolean>}
+     */
+    async deletePermission(id){
+        if (!id || id === ''){
+            return false;
+        }
+        try{
+            const sql = `delete from admin_permission where id = ${id};`;
             await adminPool.execute(sql);
             return true;
         }catch (e) {
