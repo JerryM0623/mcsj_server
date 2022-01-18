@@ -62,7 +62,7 @@ class CarouselController{
             // 创建 读文件的 流
             const readStream = fs.createReadStream(file.path);
             // 创建 写文件的 流
-            const writeStream = fs.createWriteStream(path.join(__dirname, `../../static/carousel/${img_uuid}${extension}`));
+            const writeStream = fs.createWriteStream(path.join(__dirname, `../../../static/carousel/${img_uuid}${extension}`));
             // 磁盘写入文件
             await readStream.pipe(writeStream);
 
