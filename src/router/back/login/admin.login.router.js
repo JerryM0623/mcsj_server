@@ -2,7 +2,7 @@ const Router = require('koa-router');
 
 const loginMiddleware = require('../../../middleware/back/login.middleware');
 
-const loginController = require('../../../controller/back/login.controller');
+const loginController = require('../../../controller/back/login/login.controller');
 
 const loginRouter = new Router();
 
