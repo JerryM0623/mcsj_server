@@ -1,6 +1,6 @@
 /* admin 管理后台的 login 接口的 service 层 */
 
-const adminPool = require('../../db/adminPool')
+const adminPool = require('../../../db/adminPool')
 
 class LoginService{
     async login(account){

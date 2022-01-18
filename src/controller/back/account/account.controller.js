@@ -1,5 +1,5 @@
 /* admin管理后台账户管理页面所有接口的 controller */
-const accountService = require('../../service/back/account.service');
+const accountService = require('../../../service/back/account/account.service');
 
 class accountController{
     /**

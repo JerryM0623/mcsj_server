@@ -3,7 +3,7 @@ const Router = require('koa-router');
 const tokenMiddleWare = require('../../../middleware/back/token.middleware')
 const loginMiddleware = require('../../../middleware/back/login.middleware')
 
-const accountController = require('../../../controller/back/account.controller')
+const accountController = require('../../../controller/back/account/account.controller')
 
 const adminAccountRouter = new Router({
     prefix:'/account'

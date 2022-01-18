@@ -1,6 +1,6 @@
 const Router = require('koa-router');
 
-const goodsSeriesController = require('../../../controller/back/goodsSeries.controller');
+const goodsSeriesController = require('../../../controller/back/goodsSeries/goodsSeries.controller');
 
 const adminGoodsSeriesRouter = new Router({
     prefix:'/series'

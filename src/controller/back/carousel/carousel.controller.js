@@ -2,9 +2,9 @@ const fs = require('fs');
 const path = require('path');
 const {v4 : uuidV4} = require('uuid');
 
-const carouselService = require('../../service/back/carousel.service');
+const carouselService = require('../../../service/back/carousel/carousel.service');
 
-const adminCarouselUtils = require('../../utils/admin.carousel.utils');
+const adminCarouselUtils = require('../../../utils/admin.carousel.utils');
 
 class CarouselController{
     /**

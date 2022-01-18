@@ -2,8 +2,8 @@
 
 const jwt = require('jsonwebtoken');
 
-const { JWT_KEY } = require('../../config/app.config')
-const loginService = require('../../service/back/login.service');
+const { JWT_KEY } = require('../../../config/app.config')
+const loginService = require('../../../service/back/login/login.service');
 
 class LoginController{
     /**

@@ -1,6 +1,6 @@
 /* admin的账号管理页面的所有接口的 service 层 */
 
-const adminPool = require('../../db/adminPool')
+const adminPool = require('../../../db/adminPool')
 
 class AccountService{
     /**

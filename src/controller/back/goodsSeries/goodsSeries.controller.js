@@ -1,5 +1,5 @@
 
-const goodsSeriesService = require('../../service/back/goodsSeries.service');
+const goodsSeriesService = require('../../../service/back/goodsSeries/goodsSeries.service');
 class GoodsSeriesController {
     /**
      * 获取全部商品类型(门系列,窗系列...)

@@ -1,5 +1,5 @@
 
-const mcsjPool = require('../../db/mcsjPool')
+const mcsjPool = require('../../../db/mcsjPool')
 
 class CarouselService{
     /**

@@ -1,6 +1,6 @@
 const Router = require('koa-router');
 
-const carouselController = require('../../../controller/back/carousel.controller')
+const carouselController = require('../../../controller/back/carousel/carousel.controller')
 
 const adminCarouselRouter = new Router({
     prefix:'/carousel'
