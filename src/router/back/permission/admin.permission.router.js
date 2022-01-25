@@ -5,8 +5,8 @@ const adminPermissionRouter = new Router({
 
 const permissionController = require('../../../controller/back/permission/permission.controller')
 
-// 获取权限信息的接口
-adminPermissionRouter.get('/all', permissionController.getAll);
+// 获取权限信息的接口(分页形式)
+adminPermissionRouter.get('/all', permissionController.getByPageNum);
 // 添加一个新的权限信息
 adminPermissionRouter.post('/add', permissionController.addPermission);
 // 编辑已有权限信息

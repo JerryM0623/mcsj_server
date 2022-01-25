@@ -6,20 +6,34 @@ class PermissionController{
      * @param ctx
      * @returns {Promise<void>}
      */
-    async getAll(ctx){
+    async getByPageNum(ctx){
+        // 获取数据
+        const { pageSize, pageNum } = ctx.query;
+        // 做判断
+        if (!pageSize || !pageNum){
+            ctx.body = {
+                code:400,
+                msg:'请求丢失了pageNum或者pageSize！！！',
+                data:""
+            }
+            return;
+        }
         // 使用 service层 连接数据库
-        const res = await permissionService.getAll();
+        const res = await permissionService.getByPageNum(pageSize, pageNum);
         // 判断
-        if (res.length > 0){
+        if (res.total){
             // 得到了数据进行排序
-            const newArr = res.sort((prevItem,nextItem) => {
+            const newArr = res.data.sort((prevItem,nextItem) => {
                 return prevItem.id - nextItem.id;
             })
             // 返回数据
             ctx.body = {
                 code:200,
                 msg:'查询成功',
-                data:newArr
+                data:{
+                    total: res.total,
+                    data:newArr
+                }
             }
         }else {
             ctx.body = {

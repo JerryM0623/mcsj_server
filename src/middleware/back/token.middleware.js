@@ -18,7 +18,12 @@ const checkToken = async (ctx, next) => {
         await jwt.verify(authorization.substr(7), JWT_KEY);
         await next();
     }catch (e) {
-        console.log(e)
+        console.log(e);
+        ctx.body = {
+            code:500,
+            msg:"请重新登录更新token！",
+            data:""
+        }
     }
 }
 
