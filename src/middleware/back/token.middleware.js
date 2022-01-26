@@ -21,7 +21,7 @@ const checkToken = async (ctx, next) => {
         console.log(e);
         ctx.body = {
             code:500,
-            msg:"请重新登录更新token！",
+            msg:"账户自动登录状态已失效，请重新登录",
             data:""
         }
     }
