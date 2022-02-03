@@ -31,6 +31,37 @@ class PermissionController{
             data:res
         }
     }
+
+    /**
+     * 添加权限信息
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async addPermission(ctx){
+        const { permissionName, permissionComment } = ctx.request.body;
+        if (!permissionName || !permissionComment){
+            ctx.body = {
+                code: 400,
+                msg: '参数错误',
+                data:""
+            }
+            return;
+        }
+        const res = await permissionService.addPermission(permissionName, permissionComment);
+        if (!res){
+            ctx.body = {
+                code: 500,
+                msg: '添加失败',
+                data:""
+            }
+        }else {
+            ctx.body = {
+                code: 200,
+                msg: '添加成功',
+                data:""
+            }
+        }
+    }
 }
 
 module.exports = new PermissionController();
