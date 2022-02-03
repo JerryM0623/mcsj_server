@@ -13,7 +13,7 @@ class PermissionService{
             const countSql = `select COUNT(name) as total from admin_permission;`;
             const total = await adminPool.execute(countSql);
             // 查询权限信息
-            const sql = `select id as permissionID, name as permissionName, comment as permissionComment from admin_permission limit ${ pageSize } offset ${ pageSize * (pageNum - 1) };`;
+            const sql = `select id as permissionID, name as permissionName, comment as permissionComment from admin_permission limit ${pageSize} offset ${(pageNum - 1)*pageSize};`;
             const res = await adminPool.execute(sql);
             return {
                 total: total[0][0].total,
