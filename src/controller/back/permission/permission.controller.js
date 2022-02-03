@@ -62,6 +62,32 @@ class PermissionController{
             }
         }
     }
+
+    async editPermission(ctx) {
+        const { permissionID, permissionName, permissionComment } = ctx.request.body;
+        if (!permissionID || !permissionName || !permissionComment){
+            ctx.body = {
+                code: 400,
+                msg: '参数错误',
+                data:""
+            }
+            return;
+        }
+        const res = await permissionService.editPermission(permissionID, permissionName, permissionComment);
+        if (!res){
+            ctx.body = {
+                code: 500,
+                msg: '编辑失败',
+                data:""
+            }
+        }else {
+            ctx.body = {
+                code: 200,
+                msg: '编辑成功',
+                data:""
+            }
+        }
+    }
 }
 
 module.exports = new PermissionController();

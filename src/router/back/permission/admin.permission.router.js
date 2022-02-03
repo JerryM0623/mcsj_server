@@ -9,6 +9,8 @@ const permissionController = require('../../../controller/back/permission/permis
 adminPermissionRouter.get('/all', permissionController.getByPageNum);
 // 添加一个新的权限信息
 adminPermissionRouter.post('/add',permissionController.addPermission);
+// 编辑一个权限信息
+adminPermissionRouter.post('/edit',permissionController.editPermission);
 // 添加(编辑)一个新的权限信息
 // adminPermissionRouter.post('/submit', permissionController.submitPermission);
 // 编辑已有权限信息
