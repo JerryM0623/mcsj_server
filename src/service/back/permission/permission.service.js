@@ -3,7 +3,9 @@ const adminPool = require('../../../db/adminPool');
 class PermissionService{
     /**
      * 获取全部权限信息的数据库操作函数
-     * @returns {Promise<*[]|*>}
+     * @param pageSize 每页的大小
+     * @param pageNum  需要查询的页数
+     * @returns {Promise<{total: *, data: *}|{}>}
      */
     async getByPageNum(pageSize, pageNum){
         try {
@@ -11,19 +13,15 @@ class PermissionService{
             const countSql = `select COUNT(name) as total from admin_permission;`;
             const total = await adminPool.execute(countSql);
             // 查询权限信息
-            const sql = `select id, name as permission_name, comment from admin_permission limit ${ pageSize } offset ${ pageSize * (pageNum - 1) };`;
+            const sql = `select id as permissionID, name as permissionName, comment as permissionComment from admin_permission limit ${ pageSize } offset ${ pageSize * (pageNum - 1) };`;
             const res = await adminPool.execute(sql);
-            // console.log(res[0]);
-            // console.log(total[0][0].total);
-            // 拼凑数据
-            // return [];
             return {
                 total: total[0][0].total,
                 data: res[0]
             }
         }catch (e){
             console.log(e);
-            return [];
+            return {};
         }
     }
 
@@ -32,14 +30,20 @@ class PermissionService{
      * @param permission_name
      * @returns {Promise<boolean>}
      */
-    async addPermission(permission_name){
-        if (!permission_name || permission_name.length <= 0){
-            return false;
-        }
+    async submitPermission(permissionData){
+        if (!permissionData.permissionName || permissionData.permissionName.length <= 0 || !permissionData.permissionComment || permissionData.permissionComment.length <= 0) return false;
         try {
-            const sql = `insert into admin_permission(name) value ('${permission_name}');`;
-            await adminPool.execute(sql);
-            return true;
+            if (!permissionData.id){
+                // add
+                const sql = `insert into admin_permission(name, comment) value ('${permissionData.permissionName}','${permissionData.permissionComment}');`;
+                await adminPool.execute(sql);
+                return true;
+            }else {
+                // edit
+                const sql = `update admin_permission set name = '${ permissionData.permissionName }', comment = '${ permissionData.permissionComment }' where id = ${ permissionData.id };`;
+                await adminPool.execute(sql);
+                return true;
+            }
         }catch (e) {
             console.log(e);
             return false;
