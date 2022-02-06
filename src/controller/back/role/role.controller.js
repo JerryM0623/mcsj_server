@@ -149,6 +149,33 @@ class RoleController {
             }
         }
     }
+
+    async deleteRolePermission(ctx){
+        const { id } = ctx.request.body;
+        console.log(id);
+        if (!id) {
+            ctx.body = {
+                code: 400,
+                msg: '数据有误，请重试',
+                data: ''
+            }
+            return;
+        }
+        const res = await roleService.deleteRolePermission(id);
+        if (!res){
+            ctx.body = {
+                code: 500,
+                msg: '删除失败！',
+                data: ''
+            }
+        }else {
+            ctx.body = {
+                code: 200,
+                msg: '删除权限成功！',
+                data: ''
+            }
+        }
+    }
 }
 
 module.exports = new RoleController();

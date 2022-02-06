@@ -15,5 +15,7 @@ adminRoleRouter.get('/all', roleController.getAllRole);
 adminRoleRouter.post('/add-role-permission', roleController.addRolePermission);
 // 删除职位及其权限信息
 adminRoleRouter.post('/del-role', roleController.deleteRole);
+// 删除一条权限信息（不删除职位）
+adminRoleRouter.post('/delete-role-permission', roleController.deleteRolePermission);
 
 module.exports = adminRoleRouter;

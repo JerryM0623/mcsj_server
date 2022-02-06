@@ -115,6 +115,17 @@ class RoleService{
             return false;
         }
     }
+
+    async deleteRolePermission(id){
+        try {
+            const deleteRolePermissionSql = `delete from admin_role_permission where id = ${ id };`;
+            await adminPool.execute(deleteRolePermissionSql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
 }
 
 module.exports = new RoleService()
