@@ -38,12 +38,27 @@ class RoleService{
      */
     async addRole(roleName) {
         try {
-            const sql = `insert into admin_roles(name) value ('${ roleName }');`;
+            const sql = `insert into admin_roles(name) value ('${roleName}');`;
             await adminPool.execute(sql);
             return true
-        }catch (e) {
+        } catch (e) {
             console.log(e);
             return false;
+        }
+    }
+
+    /**
+     * 获取全部职位数据
+     * @returns {Promise<*[]|*>}
+     */
+    async getAllRole(){
+        try {
+            const sql = 'select * from admin_roles;';
+            const res = await adminPool.execute(sql);
+            return res[0];
+        }catch (e) {
+            console.log(e);
+            return [];
         }
     }
 }

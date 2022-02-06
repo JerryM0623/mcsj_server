@@ -62,6 +62,28 @@ class RoleController {
             }
         }
     }
+
+    /**
+     * 获取全部职位信息
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async getAllRole(ctx){
+        const res = await roleService.getAllRole();
+        if (res.length <= 0) {
+            ctx.body = {
+                code: 500,
+                msg: '查询失败',
+                data: ''
+            }
+        }else {
+            ctx.body = {
+                code: 200,
+                msg: '查询成功',
+                data: res
+            }
+        }
+    }
 }
 
 module.exports = new RoleController();
