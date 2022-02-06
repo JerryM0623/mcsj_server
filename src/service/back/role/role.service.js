@@ -30,6 +30,22 @@ class RoleService{
             return {};
         }
     }
+
+    /**
+     * 添加职位
+     * @param roleName
+     * @returns {Promise<boolean>}
+     */
+    async addRole(roleName) {
+        try {
+            const sql = `insert into admin_roles(name) value ('${ roleName }');`;
+            await adminPool.execute(sql);
+            return true
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
 }
 
 module.exports = new RoleService()
