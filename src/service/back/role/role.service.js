@@ -61,6 +61,34 @@ class RoleService{
             return [];
         }
     }
+
+    async addRolePermission(roleValue, permissionValue){
+        try {
+            const getRoleIdSql = `select id from admin_roles where name = '${ roleValue }';`;
+            const getPermissionIdSql = `select id from admin_permission where name = '${ permissionValue }';`;
+
+            const roleRes = await adminPool.execute(getRoleIdSql);
+            const permissionRes = await adminPool.execute(getPermissionIdSql);
+
+            const roleId = roleRes[0][0].id;
+            const permissionId = permissionRes[0][0].id;
+
+            const checkSql = `select * from admin_role_permission where role_id = ${ roleId } and permission_id = ${ permissionId };`;
+            const checkRes = await adminPool.execute(checkSql);
+            const isExist = checkRes[0].length !== 0;
+
+            if (!isExist) {
+                const addSql = `insert into admin_role_permission (role_id, permission_id) value (${ roleId }, ${ permissionId });`;
+                await adminPool.execute(addSql);
+                return 'Success';
+            }
+
+            return 'Exist';
+        }catch (e) {
+            console.log(e);
+            return 'Error';
+        }
+    }
 }
 
 module.exports = new RoleService()

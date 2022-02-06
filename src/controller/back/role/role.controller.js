@@ -84,6 +84,40 @@ class RoleController {
             }
         }
     }
+
+    async addRolePermission(ctx){
+        const { roleValue, permissionValue } = ctx.request.body;
+        if (!roleValue || !permissionValue){
+            ctx.body = {
+                code: 400,
+                msg: '数据有误，请重试',
+                data: ''
+            }
+            return;
+        }
+        const res = await roleService.addRolePermission(roleValue, permissionValue);
+        if (res === 'Error'){
+            ctx.body = {
+                code: 500,
+                msg: '添加失败',
+                data: ''
+            }
+            return;
+        }
+        if (res === 'Exist'){
+            ctx.body = {
+                code: 501,
+                msg: '已存在该职位与权限的关系',
+                data: ''
+            }
+            return;
+        }
+        ctx.body = {
+            code: 200,
+            msg: '建立该职位与权限的关系成功',
+            data: ''
+        }
+    }
 }
 
 module.exports = new RoleController();

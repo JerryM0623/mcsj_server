@@ -11,5 +11,7 @@ adminRoleRouter.get('/page',roleController.getByPageNum);
 adminRoleRouter.post('/add-role', roleController.addRole);
 // 获取全部职位数据
 adminRoleRouter.get('/all', roleController.getAllRole);
+// 添加一条职位与权限的关联信息
+adminRoleRouter.post('/add-role-permission', roleController.addRolePermission);
 
 module.exports = adminRoleRouter;
