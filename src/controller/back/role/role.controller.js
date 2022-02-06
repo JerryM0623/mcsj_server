@@ -118,6 +118,37 @@ class RoleController {
             data: ''
         }
     }
+
+    /**
+     * 删除权限及其对应权限信息
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async deleteRole(ctx){
+        const { roleValue } = ctx.request.body;
+        if (!roleValue) {
+            ctx.body = {
+                code: 400,
+                msg: '数据有误，请重试',
+                data: ''
+            }
+            return;
+        }
+        const res = await roleService.deleteRole(roleValue);
+        if (!res){
+            ctx.body = {
+                code: 500,
+                msg: '删除失败！',
+                data: ''
+            }
+        }else {
+            ctx.body = {
+                code: 200,
+                msg: '删除职位及其对应权限成功！',
+                data: ''
+            }
+        }
+    }
 }
 
 module.exports = new RoleController();

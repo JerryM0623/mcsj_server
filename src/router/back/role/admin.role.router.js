@@ -13,5 +13,7 @@ adminRoleRouter.post('/add-role', roleController.addRole);
 adminRoleRouter.get('/all', roleController.getAllRole);
 // 添加一条职位与权限的关联信息
 adminRoleRouter.post('/add-role-permission', roleController.addRolePermission);
+// 删除职位及其权限信息
+adminRoleRouter.post('/del-role', roleController.deleteRole);
 
 module.exports = adminRoleRouter;

@@ -62,6 +62,12 @@ class RoleService{
         }
     }
 
+    /**
+     * 添加职位和权限之间的对应关系
+     * @param roleValue
+     * @param permissionValue
+     * @returns {Promise<string>}
+     */
     async addRolePermission(roleValue, permissionValue){
         try {
             const getRoleIdSql = `select id from admin_roles where name = '${ roleValue }';`;
@@ -87,6 +93,26 @@ class RoleService{
         }catch (e) {
             console.log(e);
             return 'Error';
+        }
+    }
+
+    /**
+     * 删除职位及其对应权限信息
+     * @param roleValue
+     * @returns {Promise<boolean>}
+     */
+    async deleteRole(roleValue) {
+        try{
+            const deleteRolePermissionsSql = `delete from admin_role_permission where role_id = ${ roleValue };`;
+            await adminPool.execute(deleteRolePermissionsSql);
+
+            const deleteRoleSql = `delete from admin_roles where id = ${ roleValue };`;
+            await adminPool.execute(deleteRoleSql);
+
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
         }
     }
 }
