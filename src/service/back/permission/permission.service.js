@@ -75,6 +75,17 @@ class PermissionService {
             return false;
         }
     }
+
+    async getAllPermission(){
+        try {
+            const sql = `select * from admin_permission;`;
+            const res = await adminPool.execute(sql);
+            return res[0];
+        }catch (e) {
+            console.log(e);
+            return[];
+        }
+    }
 }
 
 module.exports = new PermissionService();

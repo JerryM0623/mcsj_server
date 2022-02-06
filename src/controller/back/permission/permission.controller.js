@@ -124,6 +124,28 @@ class PermissionController {
             }
         }
     }
+
+    /**
+     * 查询全部的权限信息
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async getAllPermission(ctx){
+        const res = await permissionService.getAllPermission();
+        if (res.length <= 0) {
+            ctx.body = {
+                code: 500,
+                msg: '查询失败',
+                data: ''
+            }
+        }else {
+            ctx.body = {
+                code: 200,
+                msg: '查询成功',
+                data: res
+            }
+        }
+    }
 }
 
 module.exports = new PermissionController();
