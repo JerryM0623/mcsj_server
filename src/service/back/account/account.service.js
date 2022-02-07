@@ -13,7 +13,6 @@ class AccountService {
         try {
             const countSql = `select count(*) as total from admin_user_role;`;
             const countRes = await adminPool.execute(countSql);
-            console.log(countRes[0][0].total);
 
             const selectSql = `select ur.id, u.account, u.password, r.name as role
                                 from admin_users as u, admin_roles as r, admin_user_role as ur 
@@ -23,7 +22,6 @@ class AccountService {
                                 limit ${pageSize}
                                 offset ${pageSize * (pageNum - 1)};`;
             const selectRes = await adminPool.execute(selectSql);
-            console.log(selectRes[0]);
             return {
                 total: countRes[0][0].total,
                 list: selectRes[0]
