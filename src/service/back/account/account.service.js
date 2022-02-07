@@ -105,6 +105,37 @@ class AccountService {
             return false;
         }
     }
+
+    /**
+     * 更新账户数据
+     * @param id
+     * @param account
+     * @param password
+     * @param role
+     * @returns {Promise<boolean>}
+     */
+    async edit(id, account, password, role){
+        try {
+            const selectSql = `select user_id as id from admin_user_role where id = ${ id };`;
+            const selectRes = await adminPool.execute(selectSql);
+            const accountId = selectRes[0][0].id;
+
+            const editAccountSql = `update admin_users set account = '${ account }', password = '${ password }' where id = ${ accountId };`;
+            await adminPool.execute(editAccountSql);
+
+            const selectRoleIdSql = `select id from admin_roles where name = '${ role }';`;
+            const selectRoleIdRes = await adminPool.execute(selectRoleIdSql);
+            const roleID = selectRoleIdRes[0][0].id;
+
+            const updateRoleSql = `update admin_user_role set role_id = ${ roleID } where id = ${ id };`;
+            await adminPool.execute(updateRoleSql);
+
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
 }
 
 module.exports = new AccountService();

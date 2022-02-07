@@ -155,6 +155,38 @@ class accountController{
             data: ''
         }
     }
+
+    /**
+     * 更新数据
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async edit(ctx){
+        const { id, account, password, role } = ctx.request.body;
+        console.log(ctx.request.body);
+        if (!id || !account || !password || !role){
+            ctx.body = {
+                code: 400,
+                msg: '参数错误',
+                data:''
+            }
+            return;
+        }
+        const res = await accountService.edit(id, account, password, role);
+        if (!res){
+            ctx.body = {
+                code: 500,
+                msg: '修改失败',
+                data: ''
+            }
+            return;
+        }
+        ctx.body = {
+            code: 200,
+            msg: '修改成功',
+            data: ''
+        }
+    }
 }
 
 module.exports = new accountController();
