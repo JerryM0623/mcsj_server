@@ -85,6 +85,26 @@ class AccountService {
             return 'error';
         }
     }
+
+    /**
+     * 删除账户及其职务
+     * @param accountID
+     * @returns {Promise<boolean>}
+     */
+    async deleteAccount(accountID){
+        try {
+            const deleteRoleSql = `delete from admin_user_role where user_id = ${ accountID };`;
+            await adminPool.execute(deleteRoleSql);
+
+            const deleteAccountSql = `delete from admin_users where id = ${ accountID };`;
+            await adminPool.execute(deleteAccountSql);
+
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
 }
 
 module.exports = new AccountService();

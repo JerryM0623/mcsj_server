@@ -124,6 +124,37 @@ class accountController{
             data: ''
         }
     }
+
+    /**
+     * 删除账户及其职务
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async deleteAccount(ctx){
+        const { accountID } = ctx.request.body;
+        if (!accountID){
+            ctx.body = {
+                code: 400,
+                msg: '参数错误',
+                data:''
+            }
+            return;
+        }
+        const res = await accountService.deleteAccount(accountID);
+        if (!res){
+            ctx.body = {
+                code: 500,
+                msg: '删除失败',
+                data: ''
+            }
+            return;
+        }
+        ctx.body = {
+            code: 200,
+            msg: '删除成功',
+            data: ''
+        }
+    }
 }
 
 module.exports = new accountController();
