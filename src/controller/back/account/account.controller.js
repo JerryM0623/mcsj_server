@@ -163,7 +163,6 @@ class accountController{
      */
     async edit(ctx){
         const { id, account, password, role } = ctx.request.body;
-        console.log(ctx.request.body);
         if (!id || !account || !password || !role){
             ctx.body = {
                 code: 400,
@@ -184,6 +183,37 @@ class accountController{
         ctx.body = {
             code: 200,
             msg: '修改成功',
+            data: ''
+        }
+    }
+
+    /**
+     * 删除一条权限信息
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async delAccountRole(ctx){
+        const { id } = ctx.request.body;
+        if (!id){
+            ctx.body = {
+                code: 400,
+                msg: '参数错误',
+                data:''
+            }
+            return;
+        }
+        const res = await accountService.delAccountRole(id);
+        if (!res){
+            ctx.body = {
+                code: 500,
+                msg: '删除失败',
+                data: ''
+            }
+            return;
+        }
+        ctx.body = {
+            code: 200,
+            msg: '删除成功',
             data: ''
         }
     }

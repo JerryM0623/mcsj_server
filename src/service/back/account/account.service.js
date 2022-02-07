@@ -136,6 +136,22 @@ class AccountService {
             return false;
         }
     }
+
+    /**
+     * 删除一条账户信息
+     * @param id
+     * @returns {Promise<boolean>}
+     */
+    async delAccountRole(id){
+        try {
+            const deleteSql = `delete from admin_user_role where id = ${ id };`;
+            await adminPool.execute(deleteSql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
 }
 
 module.exports = new AccountService();

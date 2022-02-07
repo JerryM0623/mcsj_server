@@ -18,4 +18,7 @@ adminAccountRouter.post('/set-account-role', accountController.setAccountRole);
 adminAccountRouter.post('/del', accountController.deleteAccount);
 // 编辑一条权限信息
 adminAccountRouter.post('/edit', accountController.edit);
+// 删除账户信息
+adminAccountRouter.post('/del-account-role', accountController.delAccountRole);
+
 module.exports = adminAccountRouter;
