@@ -63,6 +63,28 @@ class AccountService {
             return false;
         }
     }
+
+    /**
+     * 设置账户与职位的对应关系
+     * @param accountID
+     * @param roleID
+     * @returns {Promise<string>}
+     */
+    async setAccountRole(accountID, roleID){
+        try{
+            const checkSql = `select COUNT(*) as number from admin_user_role where user_id = ${ accountID };`;
+            const checkRes = await adminPool.execute(checkSql);
+            if (checkRes[0][0].number === 0){
+                const insertSql = `insert into admin_user_role(user_id, role_id) value (${ accountID }, ${ roleID });`;
+                await adminPool.execute(insertSql);
+                return 'success';
+            }
+            return 'exist';
+        }catch (e) {
+            console.log(e);
+            return 'error';
+        }
+    }
 }
 
 module.exports = new AccountService();

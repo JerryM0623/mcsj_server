@@ -12,5 +12,7 @@ adminAccountRouter.get('/page', accountController.getAccountByPageNum);
 adminAccountRouter.get('/all', accountController.getAllAccount);
 // 创建新的账户
 adminAccountRouter.post('/add-account', accountController.addAccount);
+// 为账户赋予职位
+adminAccountRouter.post('/set-account-role', accountController.setAccountRole);
 
 module.exports = adminAccountRouter;

@@ -85,6 +85,45 @@ class accountController{
             data: ''
         }
     }
+
+    /**
+     * 设置账户与权限的对应关系
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async setAccountRole(ctx){
+        const { accountID, roleID } = ctx.request.body;
+        if (!accountID || !roleID){
+            ctx.body = {
+                code: 400,
+                msg: '参数错误',
+                data:''
+            }
+            return;
+        }
+        const res = await accountService.setAccountRole(accountID, roleID);
+        if (res === 'error'){
+            ctx.body = {
+                code: 500,
+                msg: '设置失败',
+                data: ''
+            }
+            return;
+        }
+        if (res === 'exist'){
+            ctx.body = {
+                code: 501,
+                msg: '账户职位信息已存在',
+                data: ''
+            }
+            return;
+        }
+        ctx.body = {
+            code: 200,
+            msg: '设置成功',
+            data: ''
+        }
+    }
 }
 
 module.exports = new accountController();
