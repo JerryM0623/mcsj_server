@@ -2,14 +2,14 @@
 
 const adminPool = require('../../../db/adminPool')
 
-class AccountService{
+class AccountService {
     /**
      * 分页查询账户信息
      * @param pageNum
      * @param pageSize
      * @returns {Promise<{}|{total: *, list: *}>}
      */
-    async getAccountByPageNum(pageNum, pageSize){
+    async getAccountByPageNum(pageNum, pageSize) {
         try {
             const countSql = `select count(*) as total from admin_user_role;`;
             const countRes = await adminPool.execute(countSql);
@@ -20,17 +20,34 @@ class AccountService{
                                 where ur.role_id = r.id 
                                 and 
                                 ur.user_id = u.id
-                                limit ${ pageSize }
-                                offset ${ pageSize * ( pageNum - 1 ) };`;
+                                limit ${pageSize}
+                                offset ${pageSize * (pageNum - 1)};`;
             const selectRes = await adminPool.execute(selectSql);
             console.log(selectRes[0]);
             return {
                 total: countRes[0][0].total,
                 list: selectRes[0]
             }
-        }catch (e) {
+        } catch (e) {
             console.log(e);
             return {}
+        }
+    }
+
+    /**
+     * 创建一个新的账户
+     * @param account
+     * @param password
+     * @returns {Promise<boolean>}
+     */
+    async addAccount(account, password) {
+        try{
+            const sql = `insert into admin_users(account, password) value ('${ account }', '${ password }');`;
+            await adminPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
         }
     }
 }

@@ -32,6 +32,37 @@ class accountController{
             data: res
         }
     }
+
+    /**
+     * 创建一个新的账户
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async addAccount(ctx){
+        const { account, password } = ctx.request.body;
+        if (!account || !password){
+            ctx.body = {
+                code: 400,
+                msg: '参数错误',
+                data:''
+            }
+            return;
+        }
+        const res = await accountService.addAccount(account, password);
+        if (!res){
+            ctx.body = {
+                code: 500,
+                msg: '添加失败',
+                data: ''
+            }
+            return;
+        }
+        ctx.body = {
+            code: 200,
+            msg: '添加成功',
+            data: ''
+        }
+    }
 }
 
 module.exports = new accountController();

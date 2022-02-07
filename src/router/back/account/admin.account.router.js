@@ -8,5 +8,7 @@ const adminAccountRouter = new Router({
 
 // 分页查询数据
 adminAccountRouter.get('/page', accountController.getAccountByPageNum);
+// 创建新的账户
+adminAccountRouter.post('/add-account', accountController.addAccount);
 
 module.exports = adminAccountRouter;
