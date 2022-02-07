@@ -19,7 +19,9 @@ class AccountService{
                                 from admin_users as u, admin_roles as r, admin_user_role as ur 
                                 where ur.role_id = r.id 
                                 and 
-                                ur.user_id = u.id;`;
+                                ur.user_id = u.id
+                                limit ${ pageSize }
+                                offset ${ pageSize * ( pageNum - 1 ) };`;
             const selectRes = await adminPool.execute(selectSql);
             console.log(selectRes[0]);
             return {
