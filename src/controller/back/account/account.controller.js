@@ -34,6 +34,28 @@ class accountController{
     }
 
     /**
+     * 查询全部账户信息
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async getAllAccount(ctx){
+        const res = await accountService.getAllAccount();
+        if (res.length <= 0){
+            ctx.body = {
+                code: 500,
+                msg: '查询失败',
+                data:''
+            }
+        }else {
+            ctx.body = {
+                code: 200,
+                msg: '查询成功',
+                data: res
+            }
+        }
+    }
+
+    /**
      * 创建一个新的账户
      * @param ctx
      * @returns {Promise<void>}

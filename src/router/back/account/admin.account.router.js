@@ -8,6 +8,8 @@ const adminAccountRouter = new Router({
 
 // 分页查询数据
 adminAccountRouter.get('/page', accountController.getAccountByPageNum);
+// 获取全部账户数据
+adminAccountRouter.get('/all', accountController.getAllAccount);
 // 创建新的账户
 adminAccountRouter.post('/add-account', accountController.addAccount);
 

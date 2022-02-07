@@ -33,6 +33,21 @@ class AccountService {
     }
 
     /**
+     * 获取全部的账户信息
+     * @returns {Promise<*[]|*>}
+     */
+    async getAllAccount(){
+        try {
+            const sql = `select * from admin_users;`;
+            const res = await adminPool.execute(sql);
+            return res[0];
+        }   catch (e) {
+            console.log(e);
+            return [];
+        }
+    }
+
+    /**
      * 创建一个新的账户
      * @param account
      * @param password
