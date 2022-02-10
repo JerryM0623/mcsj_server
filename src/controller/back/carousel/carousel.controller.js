@@ -8,6 +8,50 @@ const adminCarouselUtils = require('../../../utils/admin.carousel.utils');
 
 class CarouselController{
     /**
+     * 分页获取数据
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async getByPageNum(ctx){
+        const { pageNum, pageSize } = ctx.request.query;
+        if (!pageNum || !pageSize){
+            ctx.body = {
+                code: 400,
+                msg: '参数错误',
+                data: ''
+            }
+            return;
+        }
+        const res = await carouselService.getByPageNum(pageNum, pageSize);
+        console.log('111', res);
+        if (!res.total){
+            ctx.body = {
+                code: 500,
+                msg: '查询失败',
+                data: ''
+            }
+        }else {
+            ctx.body = {
+                code: 200,
+                msg: '查询成功',
+                data: res
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
      * 获取数据库中的所有轮播图数据
      * @param ctx
      * @returns {Promise<void>}

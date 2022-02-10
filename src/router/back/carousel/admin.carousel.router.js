@@ -6,6 +6,12 @@ const adminCarouselRouter = new Router({
     prefix:'/carousel'
 })
 
+
+// 根据分页获取数据
+adminCarouselRouter.get('/page', carouselController.getByPageNum);
+
+
+
 // 查询已存在于数据库中的数据
 adminCarouselRouter.get('/all', carouselController.getAllCarousels);
 // 上传轮播图文件及其附带信息的接口

@@ -3,6 +3,46 @@ const mcsjPool = require('../../../db/mcsjPool')
 
 class CarouselService{
     /**
+     * 分页获取数据
+     * @param pageNum
+     * @param pageSize
+     * @returns {Promise<{total: (*|number|{jsMemoryEstimate: number, jsMemoryRange: [number, number]}|PaymentItem), list}|{}>}
+     */
+    async getByPageNum(pageNum, pageSize){
+        try {
+
+            const CountSQL = `select COUNT(*) as total from mcsj_carousel;`;
+            const CountRes = await mcsjPool.execute(CountSQL);
+            const count = CountRes[0][0].total;
+
+            const SelectSQL = `select id, img_uuid as uuid, img_url as imgUrl, img_alt as imgAlt, is_online as isOnline 
+                                from mcsj_carousel
+                                limit ${ pageSize }
+                                offset ${ pageSize * ( pageNum - 1) };`;
+            const SelectRes = await mcsjPool.execute(SelectSQL);
+            const list = SelectRes[0];
+
+            return {
+                list,
+                total: count
+            }
+
+        }catch (e) {
+            console.log(e);
+            return {};
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+    /**
      * 获取 数据库中存在的所有轮播图数据
      * @returns {Promise<*[]|*>}
      */
