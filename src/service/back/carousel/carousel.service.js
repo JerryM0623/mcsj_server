@@ -33,7 +33,22 @@ class CarouselService{
         }
     }
 
-
+    /**
+     * 设置轮播图的上下线状态
+     * @param id
+     * @param status
+     * @returns {Promise<boolean>}
+     */
+    async setCarouselOnlineStatus(id, status){
+        try {
+            const sql = `update mcsj_carousel set is_online = ${ status } where id = ${ id };`;
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
 
 
 

@@ -23,7 +23,6 @@ class CarouselController{
             return;
         }
         const res = await carouselService.getByPageNum(pageNum, pageSize);
-        console.log('111', res);
         if (!res.total){
             ctx.body = {
                 code: 500,
@@ -39,6 +38,36 @@ class CarouselController{
         }
     }
 
+    /**
+     * 设置轮播图的上下线状态
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async setCarouselOnlineStatus(ctx){
+        const { id, status } = ctx.request.body;
+        if (id <= 0 || status < 0){
+            ctx.body = {
+                code: 400,
+                msg: '参数错误',
+                data: ''
+            }
+            return;
+        }
+        const res = await carouselService.setCarouselOnlineStatus(id, status);
+        if (!res){
+            ctx.body = {
+                code: 500,
+                msg: '修改状态失败',
+                data: ''
+            }
+        }else {
+            ctx.body = {
+                code: 200,
+                msg: '修改状态成功',
+                data: res
+            }
+        }
+    }
 
 
 

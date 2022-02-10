@@ -9,6 +9,8 @@ const adminCarouselRouter = new Router({
 
 // 根据分页获取数据
 adminCarouselRouter.get('/page', carouselController.getByPageNum);
+// 设置轮播图的上下线状态
+adminCarouselRouter.post('/setOnlineStatus', carouselController.setCarouselOnlineStatus);
 
 
 
