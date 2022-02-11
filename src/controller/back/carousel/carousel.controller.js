@@ -4,6 +4,7 @@ const {v4 : uuidV4} = require('uuid');
 
 const carouselService = require('../../../service/back/carousel/carousel.service');
 
+const aLiYunOSSClient = require('../../../utils/aliyun.oss.client');
 const adminCarouselUtils = require('../../../utils/admin.carousel.utils');
 
 class CarouselController{
@@ -65,6 +66,80 @@ class CarouselController{
                 code: 200,
                 msg: '修改状态成功',
                 data: res
+            }
+        }
+    }
+
+    /**
+     * 上传新的轮播图，将轮播图上传至阿里云oss上
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async uploadCarousel(ctx){
+        try {
+            const file = ctx.request.files.file;
+            const { imgAlt, isOnline } = ctx.request.body;
+
+            if (!file || !imgAlt || !isOnline){
+                ctx.body = {
+                    code: 400,
+                    msg: '参数错误',
+                    data: ''
+                }
+                return;
+            }
+
+            // 获取文件后缀名
+            const dotIndex = file.name.lastIndexOf('.');
+            const extension = file.name.substr(dotIndex);
+
+            // 创建文件的 uuid
+            const img_uuid = uuidV4();
+
+            // 创建文件的名字
+            const img_name = `${ img_uuid }${ extension }`;
+
+            // 创建 读文件的 流
+            const readStream = fs.createReadStream(file.path);
+
+            // 上传到阿里云
+            const putRes = await aLiYunOSSClient.putStream(`carousel/${ img_name }`, readStream);
+            const img_url = putRes.url.replace('http', 'https');
+
+            // 保存数据到数据库
+            const res = await carouselService.uploadCarousel(img_uuid, img_url, imgAlt, isOnline);
+
+            if (!res){
+                try {
+                    // 存储失败需要删除 oss 内的数据
+                    await aLiYunOSSClient.delete(`carousel/${ img_name }`);
+                }catch (e) {
+                    console.log(e);
+                    ctx.body = {
+                        code: 502,
+                        msg: '文件已上传但数据未上传',
+                        data: ''
+                    }
+                    return;
+                }
+                ctx.body = {
+                    code: 500,
+                    msg: '上传失败',
+                    data: ''
+                }
+            }else {
+                ctx.body = {
+                    code: 200,
+                    msg: '上传成功',
+                    data: ''
+                }
+            }
+        }catch (e) {
+            console.log(e);
+            ctx.body = {
+                code: 501,
+                msg: '上传失败',
+                data: ''
             }
         }
     }

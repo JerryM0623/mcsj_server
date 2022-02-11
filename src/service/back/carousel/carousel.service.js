@@ -50,6 +50,25 @@ class CarouselService{
         }
     }
 
+    /**
+     * 上传新的轮播图，上传成功之后录入轮播图的数据
+     * @param img_uuid
+     * @param img_url
+     * @param imgAlt
+     * @param isOnline
+     * @returns {Promise<boolean>}
+     */
+    async uploadCarousel(img_uuid, img_url, imgAlt, isOnline){
+        try {
+            const sql = `insert into mcsj_carousel(img_uuid, img_url, img_alt, is_online) value ('${ img_uuid }', '${ img_url }', '${ imgAlt }', ${ isOnline });`;
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
 
 
 
