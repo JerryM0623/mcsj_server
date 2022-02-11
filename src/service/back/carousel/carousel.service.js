@@ -33,6 +33,23 @@ class CarouselService{
         }
     }
 
+    async getOnlineCarousel(){
+        try {
+            const sql = `select id, img_uuid as uuid, img_url as imgUrl, img_alt as imgAlt, is_online as isOnline from mcsj_carousel where is_online = 1;`;
+            const res = await mcsjPool.execute(sql);
+            return {
+                isError: false,
+                list: res[0]
+            }
+        }catch (e) {
+            console.log(e);
+            return {
+                isError: true,
+                list: []
+            }
+        }
+    }
+
     /**
      * 设置轮播图的上下线状态
      * @param id

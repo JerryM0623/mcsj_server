@@ -39,6 +39,23 @@ class CarouselController{
         }
     }
 
+    async getOnlineCarousel(ctx){
+        const res = await carouselService.getOnlineCarousel();
+        if (res.isError){
+            ctx.body = {
+                code: 500,
+                msg: '查询失败',
+                data: ''
+            }
+        }else {
+            ctx.body = {
+                code: 200,
+                msg: '查询成功',
+                data: res.list
+            }
+        }
+    }
+
     /**
      * 设置轮播图的上下线状态
      * @param ctx
