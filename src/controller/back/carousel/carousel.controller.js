@@ -24,7 +24,7 @@ class CarouselController{
             return;
         }
         const res = await carouselService.getByPageNum(pageNum, pageSize);
-        if (!res.total){
+        if (res.total < 0){
             ctx.body = {
                 code: 500,
                 msg: '查询失败',
@@ -39,6 +39,11 @@ class CarouselController{
         }
     }
 
+    /**
+     * 获取已上线的轮播图
+     * @param ctx
+     * @returns {Promise<void>}
+     */
     async getOnlineCarousel(ctx){
         const res = await carouselService.getOnlineCarousel();
         if (res.isError){
@@ -156,6 +161,43 @@ class CarouselController{
             ctx.body = {
                 code: 501,
                 msg: '上传失败',
+                data: ''
+            }
+        }
+    }
+
+    async delCarousel(ctx){
+        const { uuid, url } = ctx.request.body;
+
+        if (!uuid || !url) {
+            ctx.body = {
+                code: 400,
+                msg: '参数错误',
+                data: ''
+            }
+            return;
+        }
+
+        try {
+            // 删除阿里云oos
+            const img_name = url.substr(url.indexOf(uuid));
+            await aLiYunOSSClient.delete(`carousel/${ img_name }`);
+
+            // 删除数据库数据
+            const res = await carouselService.delCarousel(uuid);
+            if (!res){
+                throw 'database error';
+            }else {
+                ctx.body = {
+                    code: 200,
+                    msg: '删除成功',
+                    data: ''
+                }
+            }
+        }catch (e){
+            ctx.body = {
+                code: e === 'database error' ? 501 : 502,
+                msg: e === 'database error' ? '数据删除失败' : '云端删除失败',
                 data: ''
             }
         }

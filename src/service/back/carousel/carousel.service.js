@@ -33,6 +33,10 @@ class CarouselService{
         }
     }
 
+    /**
+     * 获取已上线的轮播图
+     * @returns {Promise<{isError: boolean, list: []}|{isError: boolean, list: *}>}
+     */
     async getOnlineCarousel(){
         try {
             const sql = `select id, img_uuid as uuid, img_url as imgUrl, img_alt as imgAlt, is_online as isOnline from mcsj_carousel where is_online = 1;`;
@@ -78,6 +82,17 @@ class CarouselService{
     async uploadCarousel(img_uuid, img_url, imgAlt, isOnline){
         try {
             const sql = `insert into mcsj_carousel(img_uuid, img_url, img_alt, is_online) value ('${ img_uuid }', '${ img_url }', '${ imgAlt }', ${ isOnline });`;
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
+    async delCarousel(uuid){
+        try {
+            const sql = `delete from mcsj_carousel where img_uuid = '${ uuid }';`;
             await mcsjPool.execute(sql);
             return true;
         }catch (e) {

@@ -15,6 +15,8 @@ adminCarouselRouter.get('/online', carouselController.getOnlineCarousel);
 adminCarouselRouter.post('/setOnlineStatus', carouselController.setCarouselOnlineStatus);
 // 上传轮播图
 adminCarouselRouter.post('/upload', carouselController.uploadCarousel);
+// 删除轮播图
+adminCarouselRouter.post('/del', carouselController.delCarousel);
 
 
 
