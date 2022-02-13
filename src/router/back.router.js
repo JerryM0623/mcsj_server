@@ -4,7 +4,6 @@ const Router = require('koa-router');
 const adminLoginRouter = require('./back/login/admin.login.router');
 const adminAccountRouter = require('./back/account/admin.account.router');
 const adminCarouselRouter = require('./back/carousel/admin.carousel.router');
-const adminGoodsSeriesRouter = require('./back/goodsSeries/admin.goodsSeries.router');
 const adminPermissionRouter = require('./back/permission/admin.permission.router');
 const adminRoleRouter = require('./back/role/admin.role.router');
 
@@ -18,8 +17,6 @@ backRouter.use(adminLoginRouter.routes()).use(adminLoginRouter.allowedMethods())
 backRouter.use(adminAccountRouter.routes()).use(adminAccountRouter.allowedMethods());
 // 配置轮播图管理的接口
 backRouter.use(adminCarouselRouter.routes()).use(adminCarouselRouter.allowedMethods());
-// 配置商品系列管理的接口
-backRouter.use(adminGoodsSeriesRouter.routes()).use(adminGoodsSeriesRouter.allowedMethods());
 // 配置权限管理的接口
 backRouter.use(adminPermissionRouter.routes()).use(adminPermissionRouter.allowedMethods());
 // 配置角色控制的管理的接口
