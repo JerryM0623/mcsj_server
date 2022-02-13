@@ -10,7 +10,7 @@ class GoodsSeriesService{
     async getSeriesByPageNum(pageNum, pageSize){
         try {
             const CountSql = `select COUNT(*) as total from mcsj_goods_series;`;
-            const ListSql = `select id, name from mcsj_goods_series limit ${ pageSize } offset ${pageSize * ( pageNum - 1 )};`;
+            const ListSql = `select id, name, comment from mcsj_goods_series limit ${ pageSize } offset ${pageSize * ( pageNum - 1 )};`;
 
             const CountRes = await mcsjPool.execute(CountSql);
             const ListRes = await mcsjPool.execute(ListSql);
