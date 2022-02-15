@@ -41,8 +41,8 @@ class GoodsTypesController {
      * @returns {Promise<void>}
      */
     async addType(ctx) {
-        const { seriesId, typeName, typeComment } = ctx.request.body;
-        if (!seriesId || !typeName || !typeComment){
+        const {seriesId, typeName, typeComment} = ctx.request.body;
+        if (!seriesId || !typeName || !typeComment) {
             ctx.body = {
                 code: 400,
                 msg: '参数错误',
@@ -53,13 +53,13 @@ class GoodsTypesController {
 
         const res = await GoodsTypesService.addType(seriesId, typeName, typeComment);
 
-        if (!res){
+        if (!res) {
             ctx.body = {
                 code: 500,
                 msg: '添加失败',
                 data: ''
             }
-        }else {
+        } else {
             ctx.body = {
                 code: 200,
                 msg: '添加成功',
@@ -74,8 +74,8 @@ class GoodsTypesController {
      * @returns {Promise<void>}
      */
     async editType(ctx) {
-        const { typeId, seriesId, typeName, typeComment } = ctx.request.body;
-        if (!typeId || !seriesId || !typeName || !typeComment){
+        const {typeId, seriesId, typeName, typeComment} = ctx.request.body;
+        if (!typeId || !seriesId || !typeName || !typeComment) {
             ctx.body = {
                 code: 400,
                 msg: '参数错误',
@@ -86,13 +86,13 @@ class GoodsTypesController {
 
         const res = await GoodsTypesService.editType(typeId, seriesId, typeName, typeComment);
 
-        if (!res){
+        if (!res) {
             ctx.body = {
                 code: 500,
                 msg: '修改失败',
                 data: ''
             }
-        }else {
+        } else {
             ctx.body = {
                 code: 200,
                 msg: '修改成功',
@@ -101,8 +101,37 @@ class GoodsTypesController {
         }
     }
 
+    /**
+     * 删除一条类型信息
+     * @param ctx
+     * @returns {Promise<void>}
+     */
     async deleteType(ctx) {
+        const {typeId} = ctx.request.body;
+        if (!typeId) {
+            ctx.body = {
+                code: 400,
+                msg: '参数错误',
+                data: ''
+            }
+            return;
+        }
 
+        const res = await GoodsTypesService.deleteType(typeId);
+
+        if (!res) {
+            ctx.body = {
+                code: 500,
+                msg: '删除失败',
+                data: ''
+            }
+        } else {
+            ctx.body = {
+                code: 200,
+                msg: '删除成功',
+                data: ''
+            }
+        }
     }
 }
 

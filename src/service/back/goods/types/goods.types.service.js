@@ -1,20 +1,20 @@
 const mcsjPool = require('../../../../db/mcsjPool');
 
-class GoodsTypesService{
+class GoodsTypesService {
     /**
      * 分页获取数据
      * @param pageNum
      * @param pageSize
      * @returns {Promise<{total: number, list: []}|{total, list: *}>}
      */
-    async getByPage(pageNum, pageSize){
+    async getByPage(pageNum, pageSize) {
         try {
             const CountSql = `select COUNT(*) as total from mcsj_goods_types;`;
             const ListSql = `select t.id, s.name as seriesName, t.name, t.comment 
             from mcsj_goods_series as s, mcsj_goods_types as t 
             where series_id = s.id 
-            limit ${ pageSize } 
-            offset ${ pageSize * (pageNum - 1) };`;
+            limit ${pageSize} 
+            offset ${pageSize * (pageNum - 1)};`;
 
             const CountRes = await mcsjPool.execute(CountSql);
             const ListRes = await mcsjPool.execute(ListSql);
@@ -24,7 +24,7 @@ class GoodsTypesService{
                 total: CountRes[0][0].total
             }
 
-        }catch (e) {
+        } catch (e) {
             console.log(e);
             return {
                 list: [],
@@ -40,12 +40,12 @@ class GoodsTypesService{
      * @param typeComment
      * @returns {Promise<boolean>}
      */
-    async addType(seriesId, typeName, typeComment){
+    async addType(seriesId, typeName, typeComment) {
         try {
-            const sql = `insert into mcsj_goods_types(series_id, name, comment) VALUE (${ seriesId }, '${ typeName }', '${ typeComment }');`;
+            const sql = `insert into mcsj_goods_types(series_id, name, comment) VALUE (${seriesId}, '${typeName}', '${typeComment}');`;
             await mcsjPool.execute(sql);
             return true;
-        }catch (e) {
+        } catch (e) {
             console.log(e);
             return false;
         }
@@ -59,12 +59,28 @@ class GoodsTypesService{
      * @param typeComment
      * @returns {Promise<boolean>}
      */
-    async editType(typeId, seriesId, typeName, typeComment){
+    async editType(typeId, seriesId, typeName, typeComment) {
         try {
-            const sql = `update mcsj_goods_types set series_id = ${ seriesId }, name = '${ typeName }', comment = '${ typeComment }' where id = ${ typeId };`;
+            const sql = `update mcsj_goods_types set series_id = ${seriesId}, name = '${typeName}', comment = '${typeComment}' where id = ${typeId};`;
             await mcsjPool.execute(sql);
             return true;
-        }catch (e) {
+        } catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
+    /**
+     * 删除一条类型信息
+     * @param typeId
+     * @returns {Promise<boolean>}
+     */
+    async deleteType(typeId) {
+        try {
+            const sql = `delete from mcsj_goods_types where id = ${typeId};`;
+            await mcsjPool.execute(sql);
+            return true;
+        } catch (e) {
             console.log(e);
             return false;
         }
