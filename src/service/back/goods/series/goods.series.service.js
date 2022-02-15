@@ -37,7 +37,25 @@ class GoodsSeriesService{
      */
     async add(seriesName, seriesComment) {
         try {
-            const sql = `insert into mcsj.mcsj_goods_series(name, comment) VALUE ('${ seriesName }', '${ seriesComment }');`;
+            const sql = `insert into mcsj_goods_series(name, comment) VALUE ('${ seriesName }', '${ seriesComment }');`;
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
+    /**
+     * 编辑系列
+     * @param seriesID
+     * @param seriesName
+     * @param seriesComment
+     * @returns {Promise<boolean>}
+     */
+    async edit(seriesID, seriesName, seriesComment){
+        try {
+            const sql = `update mcsj_goods_series set name = '${ seriesName }', comment = '${ seriesComment }' where id = ${ seriesID };`;
             await mcsjPool.execute(sql);
             return true;
         }catch (e) {

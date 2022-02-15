@@ -71,6 +71,39 @@ class GoodsSeriesController {
             }
         }
     }
+
+    /**
+     * 编辑系列
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async edit(ctx){
+        const { seriesName, seriesComment, seriesId } = ctx.request.body;
+        if (!seriesName || !seriesComment || !seriesId){
+            ctx.body = {
+                code: 400,
+                msg: '参数错误',
+                data: ''
+            }
+            return;
+        }
+
+        const res = await GoodsSeriesService.edit(seriesId, seriesName, seriesComment);
+
+        if (!res){
+            ctx.body = {
+                code: 500,
+                msg: '修改失败',
+                data: ''
+            }
+        }else {
+            ctx.body = {
+                code: 200,
+                msg: '修改成功',
+                data: ''
+            }
+        }
+    }
 }
 
 module.exports = new GoodsSeriesController();

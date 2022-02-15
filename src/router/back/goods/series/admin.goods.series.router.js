@@ -9,5 +9,7 @@ const adminGoodsSeriesRouter = new Router({
 adminGoodsSeriesRouter.get('/getSeriesByPageNum', GoodsSeriesController.getSeriesByPageNum);
 // 添加 series
 adminGoodsSeriesRouter.post('/add', GoodsSeriesController.add);
+// 编辑 series
+adminGoodsSeriesRouter.post('/edit', GoodsSeriesController.edit);
 
 module.exports = adminGoodsSeriesRouter;
