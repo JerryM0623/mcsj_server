@@ -63,6 +63,22 @@ class GoodsSeriesService{
             return false;
         }
     }
+
+    /**
+     * 删除一条系列
+     * @param seriesId
+     * @returns {Promise<boolean>}
+     */
+    async deleteOne(seriesId){
+        try {
+            const sql = `delete from mcsj_goods_series where id = ${ seriesId };`;
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
 }
 
 module.exports = new GoodsSeriesService();

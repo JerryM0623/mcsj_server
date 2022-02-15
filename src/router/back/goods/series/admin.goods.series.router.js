@@ -11,5 +11,7 @@ adminGoodsSeriesRouter.get('/getSeriesByPageNum', GoodsSeriesController.getSerie
 adminGoodsSeriesRouter.post('/add', GoodsSeriesController.add);
 // 编辑 series
 adminGoodsSeriesRouter.post('/edit', GoodsSeriesController.edit);
+// 删除 series
+adminGoodsSeriesRouter.post('/delete', GoodsSeriesController.deleteOne);
 
 module.exports = adminGoodsSeriesRouter;

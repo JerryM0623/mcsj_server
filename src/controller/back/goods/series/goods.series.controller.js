@@ -104,6 +104,39 @@ class GoodsSeriesController {
             }
         }
     }
+
+    /**
+     * 删除一条系列
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async deleteOne(ctx){
+        const { seriesId } = ctx.request.body;
+        if (!seriesId){
+            ctx.body = {
+                code: 400,
+                msg: '参数错误',
+                data: ''
+            }
+            return;
+        }
+
+        const res = await GoodsSeriesService.deleteOne(seriesId);
+
+        if (!res){
+            ctx.body = {
+                code: 500,
+                msg: '删除失败',
+                data: ''
+            }
+        }else {
+            ctx.body = {
+                code: 200,
+                msg: '删除成功',
+                data: ''
+            }
+        }
+    }
 }
 
 module.exports = new GoodsSeriesController();
