@@ -50,6 +50,25 @@ class GoodsTypesService{
             return false;
         }
     }
+
+    /**
+     * 编辑一条类型的信息
+     * @param typeId
+     * @param seriesId
+     * @param typeName
+     * @param typeComment
+     * @returns {Promise<boolean>}
+     */
+    async editType(typeId, seriesId, typeName, typeComment){
+        try {
+            const sql = `update mcsj_goods_types set series_id = ${ seriesId }, name = '${ typeName }', comment = '${ typeComment }' where id = ${ typeId };`;
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
 }
 
 module.exports = new GoodsTypesService()

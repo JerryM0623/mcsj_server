@@ -68,8 +68,37 @@ class GoodsTypesController {
         }
     }
 
+    /**
+     * 编辑一条类型的信息
+     * @param ctx
+     * @returns {Promise<void>}
+     */
     async editType(ctx) {
+        const { typeId, seriesId, typeName, typeComment } = ctx.request.body;
+        if (!typeId || !seriesId || !typeName || !typeComment){
+            ctx.body = {
+                code: 400,
+                msg: '参数错误',
+                data: ''
+            }
+            return;
+        }
 
+        const res = await GoodsTypesService.editType(typeId, seriesId, typeName, typeComment);
+
+        if (!res){
+            ctx.body = {
+                code: 500,
+                msg: '修改失败',
+                data: ''
+            }
+        }else {
+            ctx.body = {
+                code: 200,
+                msg: '修改成功',
+                data: ''
+            }
+        }
     }
 
     async deleteType(ctx) {
