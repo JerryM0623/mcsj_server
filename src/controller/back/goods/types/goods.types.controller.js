@@ -35,8 +35,37 @@ class GoodsTypesController {
         }
     }
 
+    /**
+     * 添加新的类型
+     * @param ctx
+     * @returns {Promise<void>}
+     */
     async addType(ctx) {
+        const { seriesId, typeName, typeComment } = ctx.request.body;
+        if (!seriesId || !typeName || !typeComment){
+            ctx.body = {
+                code: 400,
+                msg: '参数错误',
+                data: ''
+            }
+            return;
+        }
 
+        const res = await GoodsTypesService.addType(seriesId, typeName, typeComment);
+
+        if (!res){
+            ctx.body = {
+                code: 500,
+                msg: '添加失败',
+                data: ''
+            }
+        }else {
+            ctx.body = {
+                code: 200,
+                msg: '添加成功',
+                data: ''
+            }
+        }
     }
 
     async editType(ctx) {
