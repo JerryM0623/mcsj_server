@@ -28,6 +28,23 @@ class GoodsSeriesService{
             }
         }
     }
+
+    /**
+     * 添加一条新系列
+     * @param seriesName
+     * @param seriesComment
+     * @returns {Promise<boolean>}
+     */
+    async add(seriesName, seriesComment) {
+        try {
+            const sql = `insert into mcsj.mcsj_goods_series(name, comment) VALUE ('${ seriesName }', '${ seriesComment }');`;
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
 }
 
 module.exports = new GoodsSeriesService();

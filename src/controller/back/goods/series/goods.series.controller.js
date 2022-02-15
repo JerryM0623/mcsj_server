@@ -38,6 +38,39 @@ class GoodsSeriesController {
             }
         }
     }
+
+    /**
+     * 添加一条新系列
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async add(ctx){
+        const { seriesName, seriesComment } = ctx.request.body;
+        if (!seriesName || !seriesComment){
+            ctx.body = {
+                code: 400,
+                msg: '参数错误',
+                data: ''
+            }
+            return;
+        }
+
+        const res = await GoodsSeriesService.add(seriesName, seriesComment);
+
+        if (!res){
+            ctx.body = {
+                code: 500,
+                msg: '添加失败',
+                data: ''
+            }
+        }else {
+            ctx.body = {
+                code: 200,
+                msg: '添加成功',
+                data: ''
+            }
+        }
+    }
 }
 
 module.exports = new GoodsSeriesController();
