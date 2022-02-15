@@ -7,6 +7,8 @@ const adminGoodsSeriesRouter = new Router({
 
 // 分页获取分页数据
 adminGoodsSeriesRouter.get('/getSeriesByPageNum', GoodsSeriesController.getSeriesByPageNum);
+// 获取全部数据
+adminGoodsSeriesRouter.get('/getAllSeries', GoodsSeriesController.getAllSeries);
 // 添加 series
 adminGoodsSeriesRouter.post('/add', GoodsSeriesController.add);
 // 编辑 series

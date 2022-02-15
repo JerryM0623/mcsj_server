@@ -30,6 +30,23 @@ class GoodsSeriesService{
     }
 
     /**
+     * 获取全部的系列数据
+     * @returns {Promise<*[]|*>}
+     */
+    async getAllSeries(){
+        try {
+            const ListSql = `select id, name, comment from mcsj_goods_series ;`;
+            const ListRes = await mcsjPool.execute(ListSql);
+
+            return ListRes[0];
+
+        }catch (e) {
+            console.log(e);
+            return []
+        }
+    }
+
+    /**
      * 添加一条新系列
      * @param seriesName
      * @param seriesComment

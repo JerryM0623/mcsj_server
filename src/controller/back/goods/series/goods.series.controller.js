@@ -39,6 +39,27 @@ class GoodsSeriesController {
         }
     }
 
+    async getAllSeries(ctx) {
+        const res = await GoodsSeriesService.getAllSeries();
+        if (res.length > 0){
+            const newArr = res.sort((prevItem, nextItem) => {
+                return prevItem.id - nextItem.id;
+            })
+            ctx.body = {
+                code: 200,
+                msg: '获取数据成功',
+                data: newArr
+            }
+        }else {
+            ctx.body = {
+                code: 500,
+                msg: '下拉框暂无数据',
+                data: res
+            }
+        }
+
+    }
+
     /**
      * 添加一条新系列
      * @param ctx
