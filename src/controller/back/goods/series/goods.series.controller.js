@@ -39,6 +39,11 @@ class GoodsSeriesController {
         }
     }
 
+    /**
+     * 获取全部数据
+     * @param ctx
+     * @returns {Promise<void>}
+     */
     async getAllSeries(ctx) {
         const res = await GoodsSeriesService.getAllSeries();
         if (res.length > 0){
