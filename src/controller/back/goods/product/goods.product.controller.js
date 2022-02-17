@@ -8,7 +8,7 @@ const getPageNumAndSize = (ctx) => {
     }
 }
 const checkPageNumAndPageSize = (obj) => {
-    return (!obj.pageNum || !obj.pageSize)
+    return (!(!obj.pageNum || !obj.pageSize))
 }
 
 const badBody = {
