@@ -1,6 +1,5 @@
 const GoodsProductService = require('../../../../service/back/goods/product/goods.product.service');
 
-
 const getPageNumAndSize = (ctx) => {
     return {
         pageNum: ctx.request.query.pageNum,
@@ -9,6 +8,20 @@ const getPageNumAndSize = (ctx) => {
 }
 const checkPageNumAndPageSize = (obj) => {
     return (!(!obj.pageNum || !obj.pageSize))
+}
+
+const getStatusAndId = (ctx) => {
+    return {
+        status: ctx.request.body.status,
+        id: ctx.request.body.id
+    }
+}
+
+const checkStatusAndId = (obj) => {
+    const { status, id } = obj;
+    const checkId = id < 0 || id > 1 || id === undefined || id === null;
+    const checkStatus = status < 0 || status > 1 || status === undefined || status === null
+    return (!checkId && !checkStatus)
 }
 
 const badBody = {
@@ -51,6 +64,23 @@ class GoodsProductController {
 
     async doorGetByPageNum(ctx){}
     async houseGetByPageNum(ctx){}
+
+    async changeWindowStatus(ctx){
+        if (!checkStatusAndId(getStatusAndId(ctx))){
+            ctx.body = badBody;
+            return;
+        }
+        const res = await GoodsProductService.changeWindowStatus(getStatusAndId(ctx));
+        if (!res){
+            errorBody.msg = '操作失败';
+            ctx.body = errorBody;
+        }else {
+            successBody.msg = '操作成功';
+            ctx.body = successBody;
+        }
+    }
+    async changeDoorStatus(ctx){}
+    async changeHouseStatus(ctx){}
 }
 
 module.exports = new GoodsProductController();

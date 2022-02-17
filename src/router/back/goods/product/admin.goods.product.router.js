@@ -10,4 +10,9 @@ adminGoodsProductRouter.get('/window/getByPage', GoodsProductController.windowGe
 adminGoodsProductRouter.get('/door/getByPage', GoodsProductController.doorGetByPageNum);
 adminGoodsProductRouter.get('/house/getByPage', GoodsProductController.houseGetByPageNum);
 
+// 上下架商品
+adminGoodsProductRouter.post('/window/changeStatus', GoodsProductController.changeWindowStatus);
+adminGoodsProductRouter.post('/door/changeStatus', GoodsProductController.changeDoorStatus);
+adminGoodsProductRouter.post('/house/changeStatus', GoodsProductController.changeHouseStatus);
+
 module.exports = adminGoodsProductRouter
