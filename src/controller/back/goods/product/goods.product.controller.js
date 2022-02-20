@@ -19,7 +19,7 @@ const getStatusAndId = (ctx) => {
 
 const checkStatusAndId = (obj) => {
     const { status, id } = obj;
-    const checkId = id < 0 || id > 1 || id === undefined || id === null;
+    const checkId = id <= 0 || id === undefined || id === null;
     const checkStatus = status < 0 || status > 1 || status === undefined || status === null
     return (!checkId && !checkStatus)
 }
