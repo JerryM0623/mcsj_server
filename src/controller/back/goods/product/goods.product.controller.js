@@ -65,6 +65,11 @@ class GoodsProductController {
     async doorGetByPageNum(ctx){}
     async houseGetByPageNum(ctx){}
 
+    /**
+     * window的上下架接口
+     * @param ctx
+     * @returns {Promise<void>}
+     */
     async changeWindowStatus(ctx){
         if (!checkStatusAndId(getStatusAndId(ctx))){
             ctx.body = badBody;
@@ -81,6 +86,25 @@ class GoodsProductController {
     }
     async changeDoorStatus(ctx){}
     async changeHouseStatus(ctx){}
+
+    async deleteWindow(ctx){
+        const { id } = getStatusAndId(ctx);
+        const checkId = id <= 0 || id === undefined || id === null;
+        if (checkId){
+            ctx.body = badBody;
+            return;
+        }
+        const res = await GoodsProductService.deleteWindow(id);
+        if (!res){
+            errorBody.msg = '操作失败';
+            ctx.body = errorBody;
+        }else {
+            successBody.msg = '操作成功';
+            ctx.body = successBody;
+        }
+    }
+    async deleteHouse(ctx){}
+    async deleteDoor(ctx){}
 }
 
 module.exports = new GoodsProductController();

@@ -15,4 +15,9 @@ adminGoodsProductRouter.post('/window/changeStatus', GoodsProductController.chan
 adminGoodsProductRouter.post('/door/changeStatus', GoodsProductController.changeDoorStatus);
 adminGoodsProductRouter.post('/house/changeStatus', GoodsProductController.changeHouseStatus);
 
+// 删除商品
+adminGoodsProductRouter.post('/window/delete', GoodsProductController.deleteWindow);
+adminGoodsProductRouter.post('/door/delete', GoodsProductController.deleteDoor);
+adminGoodsProductRouter.post('/house/delete', GoodsProductController.deleteHouse);
+
 module.exports = adminGoodsProductRouter

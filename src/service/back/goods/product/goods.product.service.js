@@ -37,10 +37,31 @@ class GoodsProductService {
         }
     }
 
+    /**
+     * window上下架的接口
+     * @param obj
+     * @returns {Promise<boolean>}
+     */
     async changeWindowStatus(obj){
         const { status, id } = obj;
         try {
             const sql = `update mcsj_goods_product set is_online = ${ status } where id = ${ id };`;
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
+    /**
+     * window的删除商品接口
+     * @param id
+     * @returns {Promise<boolean>}
+     */
+    async deleteWindow(id){
+        try {
+            const sql = `delete from mcsj.mcsj_goods_product where id = ${ id };`;
             await mcsjPool.execute(sql);
             return true;
         }catch (e) {
