@@ -20,4 +20,7 @@ adminGoodsProductRouter.post('/window/delete', GoodsProductController.deleteWind
 adminGoodsProductRouter.post('/door/delete', GoodsProductController.deleteDoor);
 adminGoodsProductRouter.post('/house/delete', GoodsProductController.deleteHouse);
 
+// 添加商品
+adminGoodsProductRouter.post('/window/add', GoodsProductController.addWindow);
+
 module.exports = adminGoodsProductRouter

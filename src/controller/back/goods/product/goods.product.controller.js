@@ -61,7 +61,6 @@ class GoodsProductController {
             ctx.body = successBody;
         }
     }
-
     async doorGetByPageNum(ctx){}
     async houseGetByPageNum(ctx){}
 
@@ -105,6 +104,28 @@ class GoodsProductController {
     }
     async deleteHouse(ctx){}
     async deleteDoor(ctx){}
+
+    async addWindow(ctx) {
+        // const { dialogMode, typeName, name,
+        //     commentOne, commentTwo, commentThree,
+        //     isHot, isOnline, originPrice, salePrice } = ctx.request.body;
+
+        const file = ctx.request.files.file;
+
+        console.log(ctx.request.body);
+        console.log(file);
+
+        ctx.body = successBody;
+
+        /*
+        * todo: 以实现前端数据传递至后端。
+        *  1. 后端处理数据，创建一个 uuid 并将传入的图片重命名为该 uuid， 上传至阿里云 oss 对象存储中。
+        *  2. 在上传成功之后，将对应的数据存入数据库中。
+        *  3. 任何一部出现错误，返回 error
+        *  4. 全部输入正确返回 success。
+        */
+
+    }
 }
 
 module.exports = new GoodsProductController();
