@@ -70,6 +70,24 @@ class GoodsProductService {
         }
     }
 
+    async addWindow(body, uuid, url){
+        try {
+            const { typeId, seriesId, name, commentOne, commentTwo, commentThree,
+                isHot, isOnline, originPrice, salePrice } = body;
+            const sql = `insert into mcsj_goods_product(uuid, series_id, 
+                         type_id, name, comment_1, comment_2, comment_3, origin_price, 
+                         sale_price, img_url, is_hot, is_online)
+                         VALUE ('${ uuid }', ${ seriesId }, ${ typeId }, '${ name }', '${ commentOne }', 
+                         '${ commentTwo }', '${ commentThree }', ${ originPrice }, ${ salePrice }, '${ url }', ${ isHot }, ${ isOnline });`;
+
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
 }
 
 module.exports = new GoodsProductService();

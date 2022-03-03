@@ -1,4 +1,7 @@
 const GoodsProductService = require('../../../../service/back/goods/product/goods.product.service');
+const client = require('../../../../utils/aliyun.oss.client');
+const fs = require('fs');
+const {v4 : uuidV4} = require('uuid');
 
 const getPageNumAndSize = (ctx) => {
     return {
@@ -105,26 +108,46 @@ class GoodsProductController {
     async deleteHouse(ctx){}
     async deleteDoor(ctx){}
 
+    /**
+     * 新增一个窗系列商品
+     * @param ctx
+     * @returns {Promise<void>}
+     */
     async addWindow(ctx) {
-        // const { dialogMode, typeName, name,
-        //     commentOne, commentTwo, commentThree,
-        //     isHot, isOnline, originPrice, salePrice } = ctx.request.body;
-
         const file = ctx.request.files.file;
+        // 错误
+        if (Object.keys(ctx.request.body).length <= 0 || ! file){
+            ctx.body = badBody;
+            return;
+        }
+        try {
+            // 获取文件后缀名
+            const dotIndex = file.name.lastIndexOf('.');
+            const extension = file.name.substr(dotIndex);
 
-        console.log(ctx.request.body);
-        console.log(file);
+            // 床架 uuid
+            const uuid = uuidV4();
 
-        ctx.body = successBody;
+            // 上传到 阿里云 oos
+            const stream = fs.createReadStream(file.path);
+            const putRes = await client.putStream(`/products/window/${ uuid }${ extension }`, stream);
+            const img_url = putRes.url.replace('http', 'https');
 
-        /*
-        * todo: 以实现前端数据传递至后端。
-        *  1. 后端处理数据，创建一个 uuid 并将传入的图片重命名为该 uuid， 上传至阿里云 oss 对象存储中。
-        *  2. 在上传成功之后，将对应的数据存入数据库中。
-        *  3. 任何一部出现错误，返回 error
-        *  4. 全部输入正确返回 success。
-        */
-
+            // 记录数据到 数据库
+            const res = await GoodsProductService.addWindow(ctx.request.body, uuid, img_url);
+            // 返回成功 或者 失败
+            if (!res){
+                errorBody.msg = '添加失败';
+                ctx.body = errorBody;
+            }else {
+                successBody.msg = '添加成功';
+                ctx.body = successBody;
+            }
+        }catch (e) {
+            console.log(e)
+            // 返回 error
+            ctx.body = errorBody;
+        }
     }
 }
 
