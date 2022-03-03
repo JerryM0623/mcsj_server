@@ -13,5 +13,7 @@ adminGoodsTypesRouter.post('/addType', GoodsTypesController.addType);
 adminGoodsTypesRouter.post('/editType', GoodsTypesController.editType);
 // 删除数据
 adminGoodsTypesRouter.post('/deleteType', GoodsTypesController.deleteType);
+// 获取某 seriesId 下面的全部 type
+adminGoodsTypesRouter.get('/getBySeries', GoodsTypesController.getBySeries);
 
 module.exports = adminGoodsTypesRouter;

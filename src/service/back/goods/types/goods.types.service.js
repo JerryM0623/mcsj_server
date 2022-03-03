@@ -34,6 +34,22 @@ class GoodsTypesService {
     }
 
     /**
+     * 查询 seriesId 下面的所有 type
+     * @param seriesId
+     * @returns {Promise<*[]|*>}
+     */
+    async getBySeries(seriesId){
+        try {
+            const sql = `select id, name from mcsj_goods_types where series_id = ${ seriesId };`;
+            const res = await mcsjPool.execute(sql);
+            return res[0];
+        }catch (e) {
+            console.log(e);
+            return [];
+        }
+    }
+
+    /**
      * 添加新的类型
      * @param seriesId
      * @param typeName

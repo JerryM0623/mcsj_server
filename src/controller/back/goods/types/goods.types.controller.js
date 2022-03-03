@@ -1,6 +1,11 @@
 const GoodsTypesService = require('../../../../service/back/goods/types/goods.types.service');
 
 class GoodsTypesController {
+    /**
+     * 分页查询全部的类型数据
+     * @param ctx
+     * @returns {Promise<void>}
+     */
     async getByPage(ctx) {
         const {pageNum, pageSize} = ctx.request.query;
 
@@ -31,6 +36,38 @@ class GoodsTypesController {
                     list: newArr,
                     total
                 }
+            }
+        }
+    }
+
+    /**
+     * 查询 seriesId 下面的所有 type
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async getBySeries(ctx){
+        const { seriesId } = ctx.request.query;
+        if (!seriesId || seriesId <= 0) {
+            ctx.body = {
+                code: 400,
+                msg: '参数错误',
+                data: ''
+            }
+            return;
+        }
+
+        const res = await GoodsTypesService.getBySeries(seriesId);
+        if (res.length < 0) {
+            ctx.body = {
+                code: 400,
+                msg: '查询失败',
+                data: ''
+            }
+        }else {
+            ctx.body = {
+                code: 200,
+                msg: '查询成功',
+                data: res
             }
         }
     }
