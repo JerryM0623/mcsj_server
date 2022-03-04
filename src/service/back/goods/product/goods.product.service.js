@@ -70,6 +70,13 @@ class GoodsProductService {
         }
     }
 
+    /**
+     * 新增一个商品
+     * @param body
+     * @param uuid
+     * @param url
+     * @returns {Promise<boolean>}
+     */
     async addWindow(body, uuid, url){
         try {
             const { typeId, seriesId, name, commentOne, commentTwo, commentThree,
@@ -79,6 +86,69 @@ class GoodsProductService {
                          sale_price, img_url, is_hot, is_online)
                          VALUE ('${ uuid }', ${ seriesId }, ${ typeId }, '${ name }', '${ commentOne }', 
                          '${ commentTwo }', '${ commentThree }', ${ originPrice }, ${ salePrice }, '${ url }', ${ isHot }, ${ isOnline });`;
+
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
+    /**
+     * 获取一个 name 对应的 uuid
+     * @param id
+     * @returns {Promise<string|*>}
+     */
+    async getPicUrl(id){
+        try {
+            const sql = `select img_url as url from mcsj_goods_product where id = '${ id }';`;
+            const res = await mcsjPool.execute(sql);
+            console.log(res[0]);
+            return res[0][0].url;
+        }catch (e) {
+            console.log(e);
+            return '';
+        }
+    }
+
+    /**
+     * 更新云端的图片信息
+     * @param imgUrl
+     * @param uuid
+     * @returns {Promise<boolean>}
+     */
+    async updatePicUrl(imgUrl, uuid){
+        try {
+            const sql = `update mcsj_goods_product set img_url = '${ imgUrl }' where uuid = '${ uuid }';`;
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
+    /**
+     * 更新窗户的数据
+     * @param body
+     * @param uuid
+     * @returns {Promise<boolean>}
+     */
+    async updateWindow(body, uuid){
+        try {
+            /*
+            * typeId, name, comment1,
+            * comment2, comment3, originPrice,
+            * salePrice, ishot, isonline
+            */
+            const { typeId, name, commentOne, commentTwo,
+                commentThree, originPrice, salePrice, isHot, isOnline } = body;
+
+            const sql = `update mcsj_goods_product set type_id = ${ typeId }, name = '${ name }', comment_1 = '${ commentOne }', 
+                                   comment_2 = '${ commentTwo }', comment_3 = '${ commentThree }', origin_price = ${ originPrice }, 
+                                   sale_price = ${ salePrice }, is_hot = ${ isHot }, is_online = ${ isOnline } 
+                                   where uuid = '${ uuid }';`;
 
             await mcsjPool.execute(sql);
             return true;
