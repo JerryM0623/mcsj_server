@@ -64,7 +64,27 @@ class GoodsProductController {
             ctx.body = successBody;
         }
     }
-    async doorGetByPageNum(ctx){}
+
+    /**
+     * door的分页获取接口
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async doorGetByPageNum(ctx){
+        if (!checkPageNumAndPageSize(getPageNumAndSize(ctx))){
+            ctx.body = badBody;
+            return;
+        }
+        const res = await GoodsProductService.doorGetByPageNum(ctx);
+        if (!res){
+            errorBody.msg = '查询失败';
+            ctx.body = errorBody;
+        }else {
+            successBody.msg = '查询成功';
+            successBody.data = res;
+            ctx.body = successBody;
+        }
+    }
     async houseGetByPageNum(ctx){}
 
     /**
