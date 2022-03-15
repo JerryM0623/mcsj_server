@@ -193,6 +193,22 @@ class GoodsProductService {
     }
 
     /**
+     * 删除一个 house
+     * @param id
+     * @returns {Promise<boolean>}
+     */
+    async deleteHouse(id){
+        try {
+            const sql = `delete from mcsj_goods_product where id = ${ id };`;
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
+    /**
      * 新增一个商品
      * @param body
      * @param uuid
@@ -225,6 +241,31 @@ class GoodsProductService {
      * @returns {Promise<boolean>}
      */
     async addDoor(body, uuid, url){
+        try {
+            const { typeId, seriesId, name, commentOne, commentTwo, commentThree,
+                isHot, isOnline, originPrice, salePrice } = body;
+            const sql = `insert into mcsj_goods_product(uuid, series_id, 
+                         type_id, name, comment_1, comment_2, comment_3, origin_price, 
+                         sale_price, img_url, is_hot, is_online)
+                         VALUE ('${ uuid }', ${ seriesId }, ${ typeId }, '${ name }', '${ commentOne }', 
+                         '${ commentTwo }', '${ commentThree }', ${ originPrice }, ${ salePrice }, '${ url }', ${ isHot }, ${ isOnline });`;
+
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
+    /**
+     * 添加一个 house
+     * @param body
+     * @param uuid
+     * @param url
+     * @returns {Promise<boolean>}
+     */
+    async addHouse(body, uuid, url){
         try {
             const { typeId, seriesId, name, commentOne, commentTwo, commentThree,
                 isHot, isOnline, originPrice, salePrice } = body;
@@ -312,6 +353,30 @@ class GoodsProductService {
      * @returns {Promise<boolean>}
      */
     async updateDoor(body, uuid){
+        try {
+            const { typeId, name, commentOne, commentTwo,
+                commentThree, originPrice, salePrice, isHot, isOnline } = body;
+
+            const sql = `update mcsj_goods_product set type_id = ${ typeId }, name = '${ name }', comment_1 = '${ commentOne }', 
+                                   comment_2 = '${ commentTwo }', comment_3 = '${ commentThree }', origin_price = ${ originPrice }, 
+                                   sale_price = ${ salePrice }, is_hot = ${ isHot }, is_online = ${ isOnline } 
+                                   where uuid = '${ uuid }';`;
+
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
+    /**
+     * 编辑一个 house
+     * @param body
+     * @param uuid
+     * @returns {Promise<boolean>}
+     */
+    async updateHouse(body, uuid){
         try {
             const { typeId, name, commentOne, commentTwo,
                 commentThree, originPrice, salePrice, isHot, isOnline } = body;

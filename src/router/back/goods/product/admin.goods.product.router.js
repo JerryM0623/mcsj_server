@@ -23,9 +23,11 @@ adminGoodsProductRouter.post('/house/delete', GoodsProductController.deleteHouse
 // 添加商品
 adminGoodsProductRouter.post('/window/add', GoodsProductController.addWindow);
 adminGoodsProductRouter.post('/door/add', GoodsProductController.addDoor);
+adminGoodsProductRouter.post('/house/add', GoodsProductController.addHouse);
 
 // 编辑商品
 adminGoodsProductRouter.post('/window/edit', GoodsProductController.editWindow);
 adminGoodsProductRouter.post('/door/edit', GoodsProductController.editDoor);
+adminGoodsProductRouter.post('/house/edit', GoodsProductController.editHouse);
 
 module.exports = adminGoodsProductRouter
