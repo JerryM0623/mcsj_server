@@ -128,13 +128,25 @@ class GoodsProductController {
             ctx.body = badBody;
             return;
         }
-        const res = await GoodsProductService.deleteWindow(id);
-        if (!res){
-            errorBody.msg = '操作失败';
-            ctx.body = errorBody;
-        }else {
-            successBody.msg = '操作成功';
-            ctx.body = successBody;
+        const picUrl = await GoodsProductService.getPicUrl(id);
+        if (picUrl !== ''){
+            try{
+                const pic_name = picUrl.substring(picUrl.lastIndexOf('/') + 1);
+                await client.delete(`/products/window/${ pic_name }`);
+
+                const res = await GoodsProductService.deleteDoor(id);
+                if (!res){
+                    errorBody.msg = '操作失败';
+                    ctx.body = errorBody;
+                }else {
+                    successBody.msg = '操作成功';
+                    ctx.body = successBody;
+                }
+            }catch(e){
+                console.log(e);
+                errorBody.msg = '操作失败';
+                ctx.body = errorBody;
+            }
         }
     }
     async deleteHouse(ctx){
@@ -160,13 +172,25 @@ class GoodsProductController {
             ctx.body = badBody;
             return;
         }
-        const res = await GoodsProductService.deleteDoor(id);
-        if (!res){
-            errorBody.msg = '操作失败';
-            ctx.body = errorBody;
-        }else {
-            successBody.msg = '操作成功';
-            ctx.body = successBody;
+        const picUrl = await GoodsProductService.getPicUrl(id);
+        if (picUrl !== ''){
+            try{
+                const pic_name = picUrl.substring(picUrl.lastIndexOf('/') + 1);
+                await client.delete(`/products/door/${ pic_name }`);
+
+                const res = await GoodsProductService.deleteDoor(id);
+                if (!res){
+                    errorBody.msg = '操作失败';
+                    ctx.body = errorBody;
+                }else {
+                    successBody.msg = '操作成功';
+                    ctx.body = successBody;
+                }
+            }catch(e){
+                console.log(e);
+                errorBody.msg = '操作失败';
+                ctx.body = errorBody;
+            }
         }
     }
 
@@ -263,7 +287,6 @@ class GoodsProductController {
          * uuid 在新建的时候出现，新建之后的所有操作都不能更改 uuid 只能将 uuid 当作唯一标识符进行使用
          */
         try {
-            console.log(ctx.request.body);
             // 获取 uuid 和 后缀
             const url = await GoodsProductService.getPicUrl(ctx.request.body.id);
             const lastSlashIndex = url.lastIndexOf('/');
@@ -271,7 +294,6 @@ class GoodsProductController {
 
             const uuid = url.substr(lastSlashIndex + 1, 36); // uuid是32个字符组成的，加上中间的四个 - 最终为36位
             const extension = url.substr(lastDotIndex);
-            console.log('获取 uuid 和 后缀信息 成功');
 
             // 如果有传递图片文件，需要进行图片的更新
             if (ctx.request.files.file) {
