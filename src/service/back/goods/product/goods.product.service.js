@@ -85,6 +85,18 @@ class GoodsProductService {
         }
     }
 
+    async changeDoorStatus(obj){
+        const { status, id } = obj;
+        try {
+            const sql = `update mcsj_goods_product set is_online = ${ status } where id = ${ id };`;
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
     /**
      * window的删除商品接口
      * @param id

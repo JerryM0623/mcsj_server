@@ -106,7 +106,20 @@ class GoodsProductController {
             ctx.body = successBody;
         }
     }
-    async changeDoorStatus(ctx){}
+    async changeDoorStatus(ctx){
+        if (!checkStatusAndId(getStatusAndId(ctx))){
+            ctx.body = badBody;
+            return;
+        }
+        const res = await GoodsProductService.changeDoorStatus(getStatusAndId(ctx));
+        if (!res){
+            errorBody.msg = '操作失败';
+            ctx.body = errorBody;
+        }else {
+            successBody.msg = '操作成功';
+            ctx.body = successBody;
+        }
+    }
     async changeHouseStatus(ctx){}
 
     async deleteWindow(ctx){
