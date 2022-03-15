@@ -85,6 +85,11 @@ class GoodsProductService {
         }
     }
 
+    /**
+     * door 的上下架接口
+     * @param obj
+     * @returns {Promise<boolean>}
+     */
     async changeDoorStatus(obj){
         const { status, id } = obj;
         try {
@@ -104,7 +109,23 @@ class GoodsProductService {
      */
     async deleteWindow(id){
         try {
-            const sql = `delete from mcsj.mcsj_goods_product where id = ${ id };`;
+            const sql = `delete from mcsj_goods_product where id = ${ id };`;
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
+    /**
+     * 删除一个门商品
+     * @param id
+     * @returns {Promise<boolean>}
+     */
+    async deleteDoor(id){
+        try {
+            const sql = `delete from mcsj_goods_product where id = ${ id };`;
             await mcsjPool.execute(sql);
             return true;
         }catch (e) {
@@ -121,6 +142,31 @@ class GoodsProductService {
      * @returns {Promise<boolean>}
      */
     async addWindow(body, uuid, url){
+        try {
+            const { typeId, seriesId, name, commentOne, commentTwo, commentThree,
+                isHot, isOnline, originPrice, salePrice } = body;
+            const sql = `insert into mcsj_goods_product(uuid, series_id, 
+                         type_id, name, comment_1, comment_2, comment_3, origin_price, 
+                         sale_price, img_url, is_hot, is_online)
+                         VALUE ('${ uuid }', ${ seriesId }, ${ typeId }, '${ name }', '${ commentOne }', 
+                         '${ commentTwo }', '${ commentThree }', ${ originPrice }, ${ salePrice }, '${ url }', ${ isHot }, ${ isOnline });`;
+
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
+    /**
+     * 添加一个 door
+     * @param body
+     * @param uuid
+     * @param url
+     * @returns {Promise<boolean>}
+     */
+    async addDoor(body, uuid, url){
         try {
             const { typeId, seriesId, name, commentOne, commentTwo, commentThree,
                 isHot, isOnline, originPrice, salePrice } = body;
@@ -185,6 +231,30 @@ class GoodsProductService {
             * comment2, comment3, originPrice,
             * salePrice, ishot, isonline
             */
+            const { typeId, name, commentOne, commentTwo,
+                commentThree, originPrice, salePrice, isHot, isOnline } = body;
+
+            const sql = `update mcsj_goods_product set type_id = ${ typeId }, name = '${ name }', comment_1 = '${ commentOne }', 
+                                   comment_2 = '${ commentTwo }', comment_3 = '${ commentThree }', origin_price = ${ originPrice }, 
+                                   sale_price = ${ salePrice }, is_hot = ${ isHot }, is_online = ${ isOnline } 
+                                   where uuid = '${ uuid }';`;
+
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
+    /**
+     * 编辑一个door
+     * @param body
+     * @param uuid
+     * @returns {Promise<boolean>}
+     */
+    async updateDoor(body, uuid){
+        try {
             const { typeId, name, commentOne, commentTwo,
                 commentThree, originPrice, salePrice, isHot, isOnline } = body;
 

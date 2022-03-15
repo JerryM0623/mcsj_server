@@ -45,7 +45,7 @@ let successBody = {
 
 class GoodsProductController {
     /**
-     * window的分页获取接口
+     * 分页获取接口
      * @param ctx
      * @returns {Promise<void>}
      */
@@ -64,12 +64,6 @@ class GoodsProductController {
             ctx.body = successBody;
         }
     }
-
-    /**
-     * door的分页获取接口
-     * @param ctx
-     * @returns {Promise<void>}
-     */
     async doorGetByPageNum(ctx){
         if (!checkPageNumAndPageSize(getPageNumAndSize(ctx))){
             ctx.body = badBody;
@@ -88,7 +82,7 @@ class GoodsProductController {
     async houseGetByPageNum(ctx){}
 
     /**
-     * window的上下架接口
+     * 切换上下架接口
      * @param ctx
      * @returns {Promise<void>}
      */
@@ -122,6 +116,11 @@ class GoodsProductController {
     }
     async changeHouseStatus(ctx){}
 
+    /**
+     * 删除操作
+     * @param ctx
+     * @returns {Promise<void>}
+     */
     async deleteWindow(ctx){
         const { id } = getStatusAndId(ctx);
         const checkId = id <= 0 || id === undefined || id === null;
@@ -138,11 +137,41 @@ class GoodsProductController {
             ctx.body = successBody;
         }
     }
-    async deleteHouse(ctx){}
-    async deleteDoor(ctx){}
+    async deleteHouse(ctx){
+        const { id } = getStatusAndId(ctx);
+        const checkId = id <= 0 || id === undefined || id === null;
+        if (checkId){
+            ctx.body = badBody;
+            return;
+        }
+        const res = await GoodsProductService.deleteDoor(id);
+        if (!res){
+            errorBody.msg = '操作失败';
+            ctx.body = errorBody;
+        }else {
+            successBody.msg = '操作成功';
+            ctx.body = successBody;
+        }
+    }
+    async deleteDoor(ctx){
+        const { id } = getStatusAndId(ctx);
+        const checkId = id <= 0 || id === undefined || id === null;
+        if (checkId){
+            ctx.body = badBody;
+            return;
+        }
+        const res = await GoodsProductService.deleteDoor(id);
+        if (!res){
+            errorBody.msg = '操作失败';
+            ctx.body = errorBody;
+        }else {
+            successBody.msg = '操作成功';
+            ctx.body = successBody;
+        }
+    }
 
     /**
-     * 新增一个窗系列商品
+     * 新增一个商品
      * @param ctx
      * @returns {Promise<void>}
      */
@@ -168,6 +197,42 @@ class GoodsProductController {
 
             // 记录数据到 数据库
             const res = await GoodsProductService.addWindow(ctx.request.body, uuid, img_url);
+            // 返回成功 或者 失败
+            if (!res){
+                errorBody.msg = '添加失败';
+                ctx.body = errorBody;
+            }else {
+                successBody.msg = '添加成功';
+                ctx.body = successBody;
+            }
+        }catch (e) {
+            console.log(e)
+            // 返回 error
+            ctx.body = errorBody;
+        }
+    }
+    async addDoor(ctx){
+        const file = ctx.request.files.file;
+        // 错误
+        if (Object.keys(ctx.request.body).length <= 0 || ! file){
+            ctx.body = badBody;
+            return;
+        }
+        try {
+            // 获取文件后缀名
+            const dotIndex = file.name.lastIndexOf('.');
+            const extension = file.name.substr(dotIndex);
+
+            // 创建 uuid
+            const uuid = uuidV4();
+
+            // 上传到 阿里云 oos
+            const stream = fs.createReadStream(file.path);
+            const putRes = await client.putStream(`/products/door/${ uuid }${ extension }`, stream);
+            const img_url = putRes.url.replace('http', 'https');
+
+            // 记录数据到 数据库
+            const res = await GoodsProductService.addDoor(ctx.request.body, uuid, img_url);
             // 返回成功 或者 失败
             if (!res){
                 errorBody.msg = '添加失败';
@@ -242,6 +307,61 @@ class GoodsProductController {
         }catch (e) {
             console.log(e);
             console.log('---------------------------');
+            errorBody.msg = '请求错误';
+            ctx.body = errorBody;
+        }
+    }
+    async editDoor(ctx){
+        // 错误
+        if (Object.keys(ctx.request.body).length <= 0){
+            ctx.body = badBody;
+            return;
+        }
+        /**
+         * uuid 在新建的时候出现，新建之后的所有操作都不能更改 uuid 只能将 uuid 当作唯一标识符进行使用
+         */
+        try {
+            console.log(ctx.request.body);
+            // 获取 uuid 和 后缀
+            const url = await GoodsProductService.getPicUrl(ctx.request.body.id);
+            const lastSlashIndex = url.lastIndexOf('/');
+            const lastDotIndex = url.lastIndexOf('.');
+
+            const uuid = url.substr(lastSlashIndex + 1, 36); // uuid是32个字符组成的，加上中间的四个 - 最终为36位
+            const extension = url.substr(lastDotIndex);
+            console.log('获取 uuid 和 后缀信息 成功');
+
+            // 如果有传递图片文件，需要进行图片的更新
+            if (ctx.request.files.file) {
+                // 删除云端的图片数据
+                await client.delete(`/products/door/${uuid}${extension}`);
+                console.log('删除云端文件成功');
+
+                // 上传新的图片数据
+                const stream = fs.createReadStream(ctx.request.files.file.path);
+                const putRes = await client.putStream(`/products/door/${uuid}${extension}`, stream);
+                console.log('上传文件成功');
+                const imgUrl = putRes.url.replace('http', 'https');
+
+                // 更新数据库
+                const updatePicRes = await GoodsProductService.updatePicUrl(imgUrl, uuid);
+                if (!updatePicRes){
+                    errorBody.msg = '操作失败';
+                    ctx.body = errorBody;
+                }
+            }
+
+            // 更新非图片之外的数据
+            const updateWindowRes = await GoodsProductService.updateDoor(ctx.request.body, uuid);
+            if (!updateWindowRes){
+                errorBody.msg = '操作失败';
+                ctx.body = errorBody;
+            }else {
+                successBody.msg = '操作成功';
+                ctx.body = successBody;
+            }
+        }catch (e) {
+            console.log(e);
             errorBody.msg = '请求错误';
             ctx.body = errorBody;
         }
