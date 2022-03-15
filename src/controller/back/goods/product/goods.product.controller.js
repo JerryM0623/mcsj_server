@@ -79,7 +79,21 @@ class GoodsProductController {
             ctx.body = successBody;
         }
     }
-    async houseGetByPageNum(ctx){}
+    async houseGetByPageNum(ctx){
+        if (!checkPageNumAndPageSize(getPageNumAndSize(ctx))){
+            ctx.body = badBody;
+            return;
+        }
+        const res = await GoodsProductService.houseGetByPageNum(ctx);
+        if (!res){
+            errorBody.msg = '查询失败';
+            ctx.body = errorBody;
+        }else {
+            successBody.msg = '查询成功';
+            successBody.data = res;
+            ctx.body = successBody;
+        }
+    }
 
     /**
      * 切换上下架接口
