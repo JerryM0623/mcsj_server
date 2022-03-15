@@ -128,7 +128,20 @@ class GoodsProductController {
             ctx.body = successBody;
         }
     }
-    async changeHouseStatus(ctx){}
+    async changeHouseStatus(ctx){
+        if (!checkStatusAndId(getStatusAndId(ctx))){
+            ctx.body = badBody;
+            return;
+        }
+        const res = await GoodsProductService.changeHouseStatus(getStatusAndId(ctx));
+        if (!res){
+            errorBody.msg = '操作失败';
+            ctx.body = errorBody;
+        }else {
+            successBody.msg = '操作成功';
+            ctx.body = successBody;
+        }
+    }
 
     /**
      * 删除操作

@@ -2,7 +2,7 @@ const mcsjPool = require('../../../../db/mcsjPool');
 
 class GoodsProductService {
     /**
-     * window的分页获取接口
+     * window 的分页获取接口
      * @param ctx
      * @returns {Promise<{total: number, list: []}|{total, list: *}>}
      */
@@ -37,6 +37,11 @@ class GoodsProductService {
         }
     }
 
+    /**
+     * door 的分页获取接口
+     * @param ctx
+     * @returns {Promise<{total: number, list: []}|{total, list: *}>}
+     */
     async doorGetByPageNum(ctx){
         try {
             const { pageSize, pageNum } = ctx.request.query;
@@ -68,6 +73,11 @@ class GoodsProductService {
         }
     }
 
+    /**
+     * house 的分页获取接口
+     * @param ctx
+     * @returns {Promise<{total: number, list: []}|{total, list: *}>}
+     */
     async houseGetByPageNum(ctx){
         try {
             const { pageSize, pageNum } = ctx.request.query;
@@ -122,6 +132,23 @@ class GoodsProductService {
      * @returns {Promise<boolean>}
      */
     async changeDoorStatus(obj){
+        const { status, id } = obj;
+        try {
+            const sql = `update mcsj_goods_product set is_online = ${ status } where id = ${ id };`;
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
+    /**
+     * house 的上下架
+     * @param obj
+     * @returns {Promise<boolean>}
+     */
+    async changeHouseStatus(obj){
         const { status, id } = obj;
         try {
             const sql = `update mcsj_goods_product set is_online = ${ status } where id = ${ id };`;
