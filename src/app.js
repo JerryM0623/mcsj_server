@@ -28,7 +28,9 @@ app.use(KoaStatic(path.join(__dirname,'./static')));
 
 // 启用路由
 const backRouter = require('./router/back.router');
+const weChatRouter = require('./router/wechat.router');
 app.use(backRouter.routes()).use(backRouter.allowedMethods()); // admin 管理端的路由
+app.use(weChatRouter.routes()).use(weChatRouter.allowedMethods()); // wechat 小程序端的路由
 
 // 监听端口
 const { PORT } = require('./config/app.config')
