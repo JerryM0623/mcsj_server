@@ -4,4 +4,7 @@ const searchRouter = new Router({
 })
 const searchController = require('../../../controller/wechat/search/search.controller');
 
+// 搜索
+searchRouter.get('/search', searchController.search);
+
 module.exports = searchRouter;
