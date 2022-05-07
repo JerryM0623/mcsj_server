@@ -16,6 +16,7 @@ class RegisterController{
                 msg: '请求损坏',
                 data: ""
             }
+            return;
         }
         const uuid = uuidV4();
         const res = await registerService.register(uuid, username, hashPassword);
