@@ -12,6 +12,7 @@ const locationRouter = require('./wechat/location/wechat.location.router');
 const searchRouter = require('./wechat/search/wechat.search.router');
 const productRouter = require('./wechat/product/wechat.product.router');
 const categoryRouter = require('./wechat/category/wechat.category.router');
+const orderRouter = require('./wechat/order/wechat.order.router');
 
 // 小程序首页的路由
 weChatRouter.use(indexRouter.routes()).use(indexRouter.allowedMethods());
@@ -27,6 +28,8 @@ weChatRouter.use(searchRouter.routes()).use(searchRouter.allowedMethods());
 weChatRouter.use(productRouter.routes()).use(productRouter.allowedMethods());
 // 分类界面
 weChatRouter.use(categoryRouter.routes()).use(categoryRouter.allowedMethods());
+// 下单界面
+weChatRouter.use(orderRouter.routes()).use(orderRouter.allowedMethods());
 
 
 module.exports = weChatRouter;
