@@ -9,6 +9,7 @@ const adminRoleRouter = require('./back/role/admin.role.router');
 const adminGoodsSeriesRouter = require('./back/goods/series/admin.goods.series.router');
 const adminGoodsTypesRouter = require('./back/goods/types/admin.goods.types.router');
 const adminGoodsProductRouter = require('./back/goods/product/admin.goods.product.router');
+const orderRouter = require('./back/order/admin.order.router');
 
 const backRouter = new Router({
     prefix:'/admin'
@@ -30,5 +31,7 @@ backRouter.use(adminGoodsSeriesRouter.routes()).use(adminGoodsSeriesRouter.allow
 backRouter.use(adminGoodsTypesRouter.routes()).use(adminGoodsTypesRouter.allowedMethods());
 // 配置商品管理的接口
 backRouter.use(adminGoodsProductRouter.routes()).use(adminGoodsProductRouter.allowedMethods());
+// 配置订单管理的接口
+backRouter.use(orderRouter.routes()).use(orderRouter.allowedMethods());
 
 module.exports = backRouter;
