@@ -35,8 +35,88 @@ class OrderService{
                                 status
                          from   mcsj_order as mo,
                                 mcsj_goods_product as mgp
-                         where  mo.user_id = 1
+                         where  mo.user_id = ${ userId }
                            and  mo.product_id = mgp.id;`;
+
+            const res = await mcsjPool.execute(sql);
+            return res[0];
+        }catch (e) {
+            console.log(e);
+            return [];
+        }
+    }
+
+    async getOrderDetailInfo(orderId){
+        try {
+            const sql = `select mgp.img_url   as productImgUrl,
+                                mgp.name      as productName,
+                                mo.buy_number as buyNumber,
+                                mo.buy_price  as buyPrice,
+                                ml.name       as locationName,
+                                ml.phone      as locationPhone,
+                                ml.location   as location,
+                                mo.status     as status
+                         from   mcsj_order as mo,
+                                mcsj_locations as ml,
+                                mcsj_goods_product as mgp
+                         where  mo.id = ${ orderId }
+                           and  mo.location_id = ml.id
+                           and  mo.product_id = mgp.id;`;
+
+            const res = await mcsjPool.execute(sql);
+            return res[0];
+        }catch (e) {
+            console.log(e);
+            return [];
+        }
+    }
+
+    async changeOrderStatusToReceive(orderId){
+        try {
+            const sql = `update mcsj_order set status = 4 where id = ${ orderId };`;
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
+    async changeOrderStatusToRequestRefund(orderId){
+        try {
+            const sql = `update mcsj_order set status = 5 where id = ${ orderId };`;
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
+    async deleteOrder(orderId){
+        try {
+            const sql = `delete from mcsj_order where id = ${ orderId };`;
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
+    async getRefundOrderList(userId){
+        try {
+            const sql = `select mo.id         as orderId,
+                                mgp.name      as productName,
+                                mgp.img_url   as productImgUrl,
+                                mo.buy_number as buyNumber,
+                                mo.buy_price  as buyPrice,
+                                status
+                         from   mcsj_order as mo,
+                                mcsj_goods_product as mgp
+                         where  mo.user_id = ${ userId }
+                           and  mo.product_id = mgp.id
+                           and  mo.status > 4;`;
 
             const res = await mcsjPool.execute(sql);
             return res[0];
