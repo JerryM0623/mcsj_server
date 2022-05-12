@@ -113,7 +113,7 @@ class PermissionController {
         if (!res) {
             ctx.body = {
                 code: 500,
-                msg: '删除失败',
+                msg: '请先清除该权限关联的所有职位权限关系信息',
                 data: ''
             }
         } else {
