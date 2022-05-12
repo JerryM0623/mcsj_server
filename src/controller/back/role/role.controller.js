@@ -17,10 +17,10 @@ class RoleController {
             return;
         }
         const res = await roleService.getRolePermission(pageNum, pageSize);
-        if (!res.total) {
+        if (res === {}) {
             ctx.body = {
                 code: 500,
-                msg: '查询失败',
+                msg: '暂时无法获取数据',
                 data: ''
             }
         }else {

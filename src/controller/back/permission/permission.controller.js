@@ -17,7 +17,7 @@ class PermissionController {
             return;
         }
         const res = await permissionService.getByPageNum(pageSize, pageNum);
-        if (!res.total) {
+        if (res === {}) {
             ctx.body = {
                 code: 500,
                 msg: "查询失败",
