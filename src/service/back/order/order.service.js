@@ -75,6 +75,32 @@ class OrderService{
             return false;
         }
     }
+
+    async agreeRefund(orderId){
+        try {
+            const sql = `update mcsj.mcsj_order
+                            set status = 6
+                          where id = ${ orderId };`;
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
+    async rejectRefund(orderId){
+        try {
+            const sql = `update mcsj.mcsj_order
+                            set status = 7
+                          where id = ${ orderId };`;
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
 }
 
 module.exports = new OrderService();

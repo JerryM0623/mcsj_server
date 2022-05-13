@@ -106,6 +106,57 @@ class OrderController{
             }
         }
     }
+
+    async agreeRefund(ctx){
+        const { orderId } = ctx.request.body;
+        if (orderId === undefined || orderId === null || orderId < 0){
+            ctx.body = {
+                code: 400,
+                msg: '系统错误',
+                data: ''
+            }
+        }
+
+        const res = await orderService.agreeRefund(orderId);
+        if (!res){
+            ctx.body = {
+                code: 500,
+                msg: '发货失败',
+                data: ''
+            }
+        }else {
+            ctx.body = {
+                code: 200,
+                msg: '发货成功',
+                data: ''
+            }
+        }
+    }
+
+    async rejectRefund(ctx){
+        const { orderId } = ctx.request.body;
+        if (orderId === undefined || orderId === null || orderId < 0){
+            ctx.body = {
+                code: 400,
+                msg: '系统错误',
+                data: ''
+            }
+        }
+        const res = await orderService.rejectRefund(orderId);
+        if (!res){
+            ctx.body = {
+                code: 500,
+                msg: '发货失败',
+                data: ''
+            }
+        }else {
+            ctx.body = {
+                code: 200,
+                msg: '发货成功',
+                data: ''
+            }
+        }
+    }
 }
 
 module.exports = new OrderController();

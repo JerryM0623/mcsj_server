@@ -13,5 +13,9 @@ orderRouter.get('/location', orderController.getOrderLocation);
 orderRouter.post('/set/location', orderController.setOrderLocation);
 // 设置订单发货
 orderRouter.post('/delivery', orderController.setOrderDelivery);
+// 同意退款
+orderRouter.post('/agree', orderController.agreeRefund);
+// 拒绝退款
+orderRouter.post('/reject', orderController.rejectRefund);
 
 module.exports = orderRouter;
