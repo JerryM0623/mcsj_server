@@ -11,5 +11,7 @@ orderRouter.get('/page', orderController.getOrderByPage);
 orderRouter.get('/location', orderController.getOrderLocation);
 // 修改订单信息
 orderRouter.post('/set/location', orderController.setOrderLocation);
+// 设置订单发货
+orderRouter.post('/delivery', orderController.setOrderDelivery);
 
 module.exports = orderRouter;

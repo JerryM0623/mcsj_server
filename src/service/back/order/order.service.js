@@ -62,6 +62,19 @@ class OrderService{
             return false;
         }
     }
+
+    async setOrderDelivery(orderId){
+        try {
+            const sql = `update mcsj.mcsj_order
+                            set status = 3
+                          where id = ${ orderId };`;
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
 }
 
 module.exports = new OrderService();
