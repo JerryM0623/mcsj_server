@@ -25,6 +25,31 @@ class OrderController{
             }
         }
     }
+
+    async getOrderLocation(ctx){
+        const { orderId } = ctx.query;
+        if (orderId === undefined || orderId === null || orderId <= 0){
+            ctx.body = {
+                code: 400,
+                msg: '系统错误',
+                data: ''
+            }
+        }
+        const res = await orderService.getOrderLocation(orderId);
+        if (res === {}){
+            ctx.body = {
+                code: 500,
+                msg: '暂时无法查询',
+                data: ''
+            }
+        }else{
+            ctx.body = {
+                code: 200,
+                msg: '查询成功',
+                data: res
+            }
+        }
+    }
 }
 
 module.exports = new OrderController();

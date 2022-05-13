@@ -34,6 +34,19 @@ class OrderService{
             };
         }
     }
+
+    async getOrderLocation(orderId){
+        try {
+            const sql = `select location_name as locationName, location_phone as locationPhone, location 
+                         from mcsj.mcsj_order where id = ${ orderId };`;
+            const res = await mcsjPool.execute(sql);
+            console.log(res[0][0]);
+            return res[0][0];
+        }catch (e) {
+            console.log(e);
+            return {};
+        }
+    }
 }
 
 module.exports = new OrderService();
