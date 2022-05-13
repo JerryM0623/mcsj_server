@@ -9,5 +9,7 @@ const orderController = require('../../../controller/back/order/order.controller
 orderRouter.get('/page', orderController.getOrderByPage);
 // 获取订单信息
 orderRouter.get('/location', orderController.getOrderLocation);
+// 修改订单信息
+orderRouter.post('/set/location', orderController.setOrderLocation);
 
 module.exports = orderRouter;

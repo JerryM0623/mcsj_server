@@ -50,6 +50,36 @@ class OrderController{
             }
         }
     }
+
+    async setOrderLocation(ctx){
+        const { orderId, locationName, locationPhone, location } = ctx.request.body;
+        if (orderId === undefined || orderId === null || orderId <= 0 ||
+            locationName === undefined || locationName === null || locationName === ''||
+            locationPhone === undefined || locationPhone === null || locationPhone === ''||
+            location === undefined || location === null || location === ''
+        ){
+            ctx.body = {
+                code: 400,
+                msg: '系统错误',
+                data: ''
+            }
+        }
+
+        const res = await orderService.setOrderLocation(orderId, locationName, locationPhone, location);
+        if (!res){
+            ctx.body = {
+                code: 500,
+                msg: '修改失败',
+                data: ''
+            }
+        }else{
+            ctx.body = {
+                code: 200,
+                msg: '修改成功',
+                data: ''
+            }
+        }
+    }
 }
 
 module.exports = new OrderController();

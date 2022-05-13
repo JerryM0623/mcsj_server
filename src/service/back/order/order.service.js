@@ -47,6 +47,21 @@ class OrderService{
             return {};
         }
     }
+
+    async setOrderLocation(orderId, locationName, locationPhone, location){
+        try {
+            const sql = `update mcsj.mcsj_order 
+                         set location = '${ location }', 
+                             location_phone = '${ locationPhone }', 
+                             location_name = '${ locationName }'
+                         where id = ${ orderId };`;
+            await mcsjPool.execute(sql);
+            return true;
+        }catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
 }
 
 module.exports = new OrderService();
