@@ -3,8 +3,8 @@ const mcsjPool = require('../../../db/mcsjPool');
 class OrderService{
     async getOrderByPage(pageNum, pageSize){
         try {
-            const sql1 = `select COUNT(*) from mcsj.mcsj_order`;
-            const res1 = mcsjPool.execute(sql1);
+            const sql1 = `select COUNT(*) as total from mcsj.mcsj_order;`;
+            const res1 = await mcsjPool.execute(sql1);
             const sql = `select mo.id as orderId,
                                 mu.username as userName,
                                 mo.location_name as locationName,
@@ -23,7 +23,7 @@ class OrderService{
                          offset ${ pageSize * (pageNum - 1) };`;
             const res = await mcsjPool.execute(sql);
             return {
-                total: res1,
+                total: res1[0][0].total,
                 list: res[0]
             }
         }catch (e){
