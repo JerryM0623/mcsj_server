@@ -3,9 +3,9 @@ const mcsjPool = require('../../../db/mcsjPool');
 class OrderService{
     async createOrder(obj){
         try {
-            const { userId, locationId, productId, buyNumber, buyPrice } = obj;
-            const sql = `insert into mcsj_order(user_id, location_id, product_id, buy_number, buy_price, status) 
-            value (${ userId }, ${ locationId }, ${ productId }, ${ buyNumber }, ${ buyPrice }, 1 );`;
+            const { userId, locationName, locationPhone, location, productId, buyNumber, buyPrice } = obj;
+            const sql = `insert into mcsj_order(user_id, location_name, location_phone, location, product_id, buy_number, buy_price, status) 
+            value (${ userId }, '${ locationName }', '${ locationPhone }', '${ location }', ${ productId }, ${ buyNumber }, ${ buyPrice }, 1 );`;
             const res = await mcsjPool.execute(sql);
             return res[0].insertId;
         }catch (e) {
@@ -52,15 +52,13 @@ class OrderService{
                                 mgp.name      as productName,
                                 mo.buy_number as buyNumber,
                                 mo.buy_price  as buyPrice,
-                                ml.name       as locationName,
-                                ml.phone      as locationPhone,
-                                ml.location   as location,
+                                mo.location_name as locationName,
+                                mo.location_phone as locationPhone,
+                                mo.location as location,
                                 mo.status     as status
                          from   mcsj_order as mo,
-                                mcsj_locations as ml,
                                 mcsj_goods_product as mgp
                          where  mo.id = ${ orderId }
-                           and  mo.location_id = ml.id
                            and  mo.product_id = mgp.id;`;
 
             const res = await mcsjPool.execute(sql);

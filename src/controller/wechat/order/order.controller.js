@@ -7,12 +7,15 @@ class OrderController{
      * @returns {Promise<void>}
      */
     async createOrder(ctx){
-        const { userId, locationId, productId, buyNumber, buyPrice } = ctx.request.body;
+        const { userId, locationName, locationPhone, location, productId, buyNumber, buyPrice } = ctx.request.body;
         if (userId === undefined || userId === null || userId === '' ||
-        locationId === undefined || locationId === null || locationId === '' ||
-        productId === undefined || productId === null || productId === '' ||
-        buyNumber === undefined || buyNumber === null || buyNumber === '' ||
-        buyPrice === undefined || buyPrice === null || buyPrice === ''){
+            locationName === undefined || locationName === null || locationName === ''||
+            locationPhone === undefined || locationPhone === null || locationPhone === ''||
+            location === undefined || location === null || location === '' ||
+            productId === undefined || productId === null || productId === '' ||
+            buyNumber === undefined || buyNumber === null || buyNumber === '' ||
+            buyPrice === undefined || buyPrice === null || buyPrice === ''
+        ){
             ctx.body = {
                 code: 10037,
                 msg: '请求失败,请重试',
